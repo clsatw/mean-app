@@ -5,7 +5,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "serve": "lite-server -c=bs-config.json",
+    "go": "concurrently \"npm run build:watch\" \"npm run serve\"",
     "build": "ng build && nodemon server.ts",
+    "build:watch": "tsc -p src/ -w && nodemon server.ts",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validator } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 
 import * as Hero from '../hero';
 import { HeroService } from '../hero.service';
@@ -23,22 +23,32 @@ export class HeroesComponent implements OnInit {
     this.createForm();
   };
 
+  // custom validator
+  passwordWatcher(ctrl: AbstractControl): ValidationErrors | null {
+    return ctrl.get('type').value !== ctrl.get('name').value
+      ? null
+      : { 'nomatch': { expected: 'certain value', acutal: ctrl.get('type').value } };
+  }
+
   createForm() {
     this.heroForm = this._fb.group({
       id: '',
-      type: '',
-      name: '',
-      price: '',
+      type: ['', Validators.required],
+      name: ['', [Validators.required, Validators.minLength(4)]],
+      price: ['', Validators.required],
       imgUrl: ''
-    });
+    }, {validator: this.passwordWatcher});
     // to set all value use setvalue method.
     this.heroForm.patchValue({
       imgUrl: 'http://lorempixel.com/400/200',
     })
   }
 
+  get price() { return this.heroForm.get('price'); }
+
   onSubmit() {
     this.add(this.heroForm.value);
+    this.heroForm.reset();
   }
 
   ngOnInit() {
