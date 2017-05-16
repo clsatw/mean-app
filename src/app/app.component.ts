@@ -5,6 +5,7 @@ export interface Hero {
   name: string;
 }
 
+// handling nothing but routing
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
