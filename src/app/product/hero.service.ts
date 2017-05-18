@@ -33,7 +33,10 @@ export class HeroService {
         return this.http
             .get(this.heroesUrl)
             // chain map method to extract heroes from the response data
-            .map((res: Response) => res.json())
+            .map((res: Response) => {
+                const prods = res.json();
+                return prods;
+            })
             // .map(this.extractData)
             .catch(this.handleError);
     }
@@ -45,20 +48,31 @@ export class HeroService {
         const url = `${this.heroesUrl}/${hero._id}`;
         return this.http
             .put(url, JSON.stringify(hero), { headers: this.headers })
-            .map(res => res.json().data);
+            // .map(res => res.json().data)
+            .map(res => {
+                const data = res.json();
+                return data.hero;
+            })
+            .catch(this.handleError);
     }
 
-    create(hero: Hero.W): Observable<Hero.W> {
+    add(hero: Hero.W): Observable<Hero.W> {
         return this.http
             .post(this.heroesUrl, JSON.stringify(hero), { headers: this.headers })
-            .map(res => res.json().data);
+            // .map(res => res.json().data)
+            .map((res: Response) => {
+                const data = res.json();
+                return data.hero;
+            })
+            .catch(this.handleError);
     }
 
-    delete(id: number): Observable<Response> {
+    delete(id: string): Observable<boolean> {
         const url = `${this.heroesUrl}/${id}`;
         return this.http.delete(url, { headers: this.headers })
             // boolean
-            .map(res => res.json().ok);
+            .map((res: Response) => res.ok)
+            .catch(this.handleError);
     }
 
     private extractData(res: Response) {

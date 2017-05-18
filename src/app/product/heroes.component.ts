@@ -2,9 +2,9 @@ import { Component, OnInit, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { AbstractControl, FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 
-import * as Hero from '../hero';
-import { HeroService } from '../hero.service';
-import * as gg from '../mock-data';
+import * as Hero from './hero';
+import { HeroService } from './hero.service';
+import * as gg from './mock-data';
 
 @Component({
   selector: 'app-hero',
@@ -37,7 +37,7 @@ export class HeroesComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(4)]],
       price: ['', Validators.required],
       imgUrl: ''
-    }, {validator: this.passwordWatcher});
+    }, { validator: this.passwordWatcher });
     // to set all value use setvalue method.
     this.heroForm.patchValue({
       imgUrl: 'http://lorempixel.com/400/200',
@@ -80,23 +80,47 @@ export class HeroesComponent implements OnInit {
   add(hero: Hero.W): void {
     // name = name.trim();
     if (!hero) { return; }
-    this.heroService.create(hero)
-      .subscribe(
-      res => this.selectedHero = null,
+    this.heroService.add(hero)
+      .subscribe((data: Hero.W) => {
+        if (data) {
+          this.selectedHero = null
+          this.router.navigate(['/heroes']);
+        } else {
+          this.errorMessage = 'Unable to save customer';
+        }
+      },
       error => this.errorMessage = <any>error);
   }
 
-  delete(hero: Hero.R): void {
-    this.heroService.delete(hero.id)
-      .subscribe(
-      // res => this.heroes = heroes,
-      error => this.errorMessage = <any>error);
+  update(hero: Hero.W) {
+    this.heroService.update(hero)
+      .subscribe((heor: any) => {
+        if (hero) {
+          this.router.navigate(['/heroes']);
+        } else {
+          this.errorMessage = 'Unable to save customer';
+        }
+      },
+      (err) => console.log(err));
+  }
+
+  delete(hero: Hero.R) {
+    this.heroService.delete(hero._id)
+      .subscribe((status: boolean) => {
+        if (status) {
+          this.router.navigate(['/']);
+        } else {
+          this.errorMessage = 'Unable to delete customer';
+        }
+      },
+      (err) => console.log(err));
+
     /*
-    .then(() => {
-      this.heroes = this.heroes.filter(h => h !== hero);
-      if (this.selectedHero === hero) { this.selectedHero = null; }
-    });
-    */
+   .then(() => {
+     this.heroes = this.heroes.filter(h => h !== hero);
+     if (this.selectedHero === hero) { this.selectedHero = null; }
+   });
+   */
   }
 }
 
