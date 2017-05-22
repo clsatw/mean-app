@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 // import { ReactiveFormsModule } from '@angular/forms';
 
-// app rooot
+// app root
 import { AppComponent } from './app.component';
 
 import { PostsComponent } from './posts/posts.component';
