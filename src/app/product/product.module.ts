@@ -22,8 +22,9 @@ const routes: Routes = [
 */
 
 const routes: Routes = [
-  { path: '', component: HeroesComponent },
-  { path: 'detail/:id', component: HeroDetailComponent }
+  { path: '', redirectTo: 'list', pathMatch: 'full'},
+  { path: 'list', component: HeroesComponent },
+  { path: ':id', component: HeroDetailComponent }
 ]
 
 @NgModule({
