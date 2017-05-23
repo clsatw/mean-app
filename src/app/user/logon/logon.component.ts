@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LogonComponent implements OnInit {
 
-  constructor() { }
+  constructor(private logon: boolean = false) { }
 
   ngOnInit() {
   }
 
+  logOn(): boolean {
+    return !this.logon;
+  }
 }

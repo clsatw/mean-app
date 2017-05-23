@@ -7,11 +7,11 @@ import { HttpModule } from '@angular/http';
 // app root
 import { AppComponent } from './app.component';
 
-import { PostsComponent } from './posts/posts.component';
+// import { PostsComponent } from './posts/posts.component';
 // import { PostsService } from './posts/posts.service';
 // lazy loaded module's components
 
-import { DashboardComponent } from './dashboard/dashboard.component';
+// import { DashboardComponent } from './dashboard/dashboard.component';
 
 // routing module
 import { AppRoutingModule } from './router/app-routing.module';
@@ -23,8 +23,8 @@ import { CoreModule } from 'app/core/core.module';
 @NgModule({
   declarations: [
     AppComponent,
-    PostsComponent,
-    DashboardComponent,
+    // PostsComponent,
+    // DashboardComponent,
     // HeroesComponent,
     // HeroDetailComponent,
   ],
