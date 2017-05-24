@@ -3,19 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { SharedModule } from '../shared/shared.module';
 import { LogonComponent } from './logon/logon.component'
-
-/*
-const routes: Routes = [
-  {
-    path: 'logon',
-    component: LogonComponent,
-    children: [
-      { path: '', component: LogonComponent },
-    ]
-  }
-];
-*/
-
+// import { AuthGuard } from 'app/shared/auth-load-guard.service';
 
 const routes: Routes = [
   { path: '', component: LogonComponent }
@@ -28,6 +16,10 @@ const routes: Routes = [
   ],
   declarations: [
     LogonComponent,
+  ],
+  providers: [
+    // AuthGuard,
+    // AuthService
   ]
 })
 export class UserModule { }

@@ -7,36 +7,34 @@ import { HttpModule } from '@angular/http';
 // app root
 import { AppComponent } from './app.component';
 
-// import { PostsComponent } from './posts/posts.component';
 // import { PostsService } from './posts/posts.service';
 // lazy loaded module's components
-
-// import { DashboardComponent } from './dashboard/dashboard.component';
 
 // routing module
 import { AppRoutingModule } from './router/app-routing.module';
 
 // feature module
-// import { ProductModule } from 'app/product/product.module';
+// import { AdminModule } from 'app/admin/admin.module';
 import { CoreModule } from 'app/core/core.module';
+import { AuthGuard } from 'app/shared/auth-load-guard.service';
+import { AuthService } from 'app/user/logon/auth.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    // PostsComponent,
-    // DashboardComponent,
-    // HeroesComponent,
-    // HeroDetailComponent,
   ],
   imports: [
-    // any angular system pieces & 3rd-party modules that we want to use
+    // any angular system pieces & 3rd-party modules that we want to use    
     BrowserModule,
     // FormsModule,
     // ReactiveFormsModule, // <-- #2 add to Angular module imports
     HttpModule,
     CoreModule,
     AppRoutingModule,
-    // ProductModule,
+  ],
+  providers: [
+    AuthGuard,
+    AuthService
   ],
   // providers: [PostsService],
   bootstrap: [AppComponent]

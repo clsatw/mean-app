@@ -3,8 +3,9 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+// import { HttpModule } from '@angular/http';
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MdButtonModule, MdIconModule, MdToolbarModule, MdMenuModule, MdCardModule } from '@angular/material';
 
@@ -22,7 +23,7 @@ import { MdButtonModule, MdIconModule, MdToolbarModule, MdMenuModule, MdCardModu
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpModule,
+    // HttpModule,
     MdButtonModule,
     MdCardModule,
     MdMenuModule,
