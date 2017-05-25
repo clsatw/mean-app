@@ -1,4 +1,5 @@
 <h1>Detail</h1>
+
 <!--
 <div *ngIf="hero">
   <h2>{{hero.name}} details!</h2>
@@ -8,9 +9,7 @@
     <input [(ngModel)]="hero.name" placeholder="name" />
   </div>
 </div>
--->
-
-<div *ngIf="hero">
+      
   <div class="table-responsive">
     <table class="table table-hover">
       <thead>
@@ -29,13 +28,26 @@
       </tbody>
     </table>
   </div>
+  -->
 
-  <div>
-    <label>name: </label>
-    <input [(ngModel)]="hero.name" placeholder="name" />
-    <button (click)="save()">Save</button>
-  </div>
+<div *ngIf="hero">
+  <md-card>
+    <md-card-header>
+      <p>{{hero.name}}</p>
+    </md-card-header>
+    <img md-card-md-image src='{{hero.imgUrl}}' />
+    <md-card-content>
+      <p>{{hero.price}}</p>
+    </md-card-content>
+    <md-card-actions>
+      <label>name: </label>
+      <md-input-container>
+        <input mdInput [(ngModel)]="hero.name" />
+      </md-input-container>
+      <button md-button (click)="save()">Save</button>
+    </md-card-actions>
+  </md-card>
 </div>
 
-<button (click)="goBack()">Back</button>
+<button md-button (click)="goBack()">Back</button>
 <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>

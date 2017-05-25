@@ -14,42 +14,51 @@
   </h2>
 
   <form [formGroup]="heroForm" (ngSubmit)='onSubmit()' novalidate>
-    <button type="submit" [disabled]="heroForm.pristine" class="btn btn-success">Save</button> 
+    <button md-raised-button type="submit" [disabled]="heroForm.pristine">Save</button>    
     <div class="form-group">
       <label class="center-block">ID:
-        <input type='number' placeholder='ID' class="form-control" formControlName="id">
+        <md-input-container>
+          <input mdInput type='number' placeholder='ID' class="form-control" formControlName="id">
+        </md-input-container>
       </label>
     </div>
     <div class="form-group">
       <label class="center-block">Name:</label>
-        <input class="form-control" formControlName="name">
-        <span class='errors' *ngIf="heroForm.get('name').invalid && heroForm.get('name').touched">
+      <md-input-container>
+        <input mdInput class="form-control" formControlName="name">
+      </md-input-container>
+      <span class='errors' *ngIf="heroForm.get('name').invalid && heroForm.get('name').touched">
           <span *ngIf="heroForm.get('name').hasError('required')"> Name is required.</span>
-          <span *ngIf="heroForm.get('name').hasError('minlength')">Min 3 chars</span>
-          <span *ngIf="heroForm.get('name').hasError('notmatch')"> {{name.errors.nomatch.expected}}</span> 
-        </span>      
+      <span *ngIf="heroForm.get('name').hasError('minlength')">Min 3 chars</span>
+      <span *ngIf="heroForm.get('name').hasError('notmatch')"> {{name.errors.nomatch.expected}}</span>
+      </span>
     </div>
     <div class="form-group">
       <label class="center-block">Price:</label>
-        <input class="form-control" formControlName="price">
-        <div class='alert alert-danger' *ngIf="heroForm.get('price').invalid && heroForm.get('price').touched">Price is required.</div>      
+      <md-input-container>
+        <input mdInput class="form-control" formControlName="price">
+      </md-input-container>
+      <div class='error' *ngIf="heroForm.get('price').invalid && heroForm.get('price').touched">Price is required.</div>
     </div>
     <div class="form-group">
       <label class="center-block">Type:</label>
-        <input class="form-control" formControlName="type">      
+      <md-input-container>
+        <input mdInput class="form-control" formControlName="type">
+      </md-input-container>
     </div>
+    
   </form>
   <p>Form value: {{ heroForm.value | json }}</p>
   <p>Form status: {{ heroForm.status | json }}</p>
-  
+
   <p>name err: {{ heroForm.get('name').errors | json}}</p>
   <p>price err: {{ heroForm.get('price').errors | json}}</p>
-  
-  <!-- <label>Hero name:</label> <input #heroName /> --> 
+
+  <!-- <label>Hero name:</label> <input #heroName /> -->
   <hr>
 
   <div>
-    <button (click)="gotoDetail()">View Details</button>
+    <button md-raised-button (click)="gotoDetail()">View Details</button>
   </div>
 </div>
 <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>

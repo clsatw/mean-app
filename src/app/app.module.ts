@@ -1,8 +1,13 @@
+// Modules don't inherit access to the components, directives, or pipes that are declared in other modules.
+// What AppModule imports is irrelevant to ContactModule and vice versa
+
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-// import { FormsModule } from '@angular/forms';
+// BrowserAnimationsModule excludes commonmodule which is required for data binding
+import { CommonModule } from '@angular/common';
+
+// use browserAnimationsModule inlcudes browserModule
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
-// import { ReactiveFormsModule } from '@angular/forms';
 
 // app root
 import { AppComponent } from './app.component';
@@ -18,15 +23,17 @@ import { AppRoutingModule } from './router/app-routing.module';
 import { CoreModule } from 'app/core/core.module';
 import { AuthGuard } from 'app/shared/auth-load-guard.service';
 import { AuthService } from 'app/user/logon/auth.service';
+import { Material2Module } from 'app/material2/material2.module';
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
-    // any angular system pieces & 3rd-party modules that we want to use    
-    BrowserModule,
-    // FormsModule,
+    // any angular system pieces & 3rd-party modules that we want to use
+    BrowserAnimationsModule,
+    Material2Module,
+    CommonModule,
     // ReactiveFormsModule, // <-- #2 add to Angular module imports
     HttpModule,
     CoreModule,

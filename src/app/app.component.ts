@@ -12,9 +12,13 @@ export interface Hero {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Tour of Heroes';
+  title: 'Tour of Heroes';
+  navLinks: Array<any>;
   hero: Hero = {
     id: 1,
     name: 'Windstorm'
   };
+  constructor() {
+    this.navLinks = ['logon', 'posts', 'heroes', 'dashboard', 'admin'];
+  }
 }

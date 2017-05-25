@@ -5,6 +5,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { SharedModule } from '../shared/shared.module';
+import { Material2Module } from 'app/material2/material2.module';
+
 import { HeroesComponent } from './heroes.component';
 import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 import { HeroService } from './hero.service';
@@ -14,8 +16,7 @@ const routes: Routes = [
   {
     path: '',
     children: [
-      { path: '', redirectTo: 'list', pathMatch: 'full'},
-      { path: 'list', component: HeroesComponent },
+      { path: '', component: HeroesComponent },
       { path: '/:id', component: HeroDetailComponent }
     ]
   }
@@ -31,6 +32,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     SharedModule,
+    Material2Module,
     RouterModule.forChild(routes)
   ],
   declarations: [

@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { SharedModule } from '../shared/shared.module';
 import { PostsComponent } from './posts.component';
+// tslint:disable-next-line:quotemark
+import { Material2Module } from "app/material2/material2.module";
 
 /*
 const routes: Routes = [
@@ -23,6 +25,7 @@ const routes: Routes = [
 @NgModule({
     imports: [
         SharedModule,
+         Material2Module,
         RouterModule.forChild(routes)
     ],
     declarations: [

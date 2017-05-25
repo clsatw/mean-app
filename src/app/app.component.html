@@ -1,11 +1,21 @@
-<h1>{{title}}</h1>
-<nav>
-    <a routerLink="/logon" routerLinkActive="active">Logon</a>
-    <a routerLink="/posts" routerLinkActive="active">Posts</a>
-    <a routerLink="/heroes" routerLinkActive="active">Heroes</a>
-    <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-    <a routerLink="/admin" routerLinkActive="active">Admin</a>
-    <a [routerLink]="[{ outlets: { popup: ['compose'] } }]">Contact</a>
+<div fxLayout="column" fxFlex [class.dark-theme]="isDarkTheme">
+
+<md-toolbar color='primary'>
+    <md-icon md-svg-src="url-of-icon" aria-label="label" class="snumber"></md-icon>
+    <span>{{title}}</span>
+</md-toolbar>
+
+<nav md-tab-nav-bar>
+  <a md-tab-link
+     *ngFor="let link of navLinks"
+     [routerLink]="link"
+     routerLinkActive #rla="routerLinkActive"
+     [active]="rla.isActive">
+    {{link | uppercase}}
+  </a>
 </nav>
+
 <router-outlet></router-outlet>
-<router-outlet name="popup"></router-outlet>
+</div>
+
+<!-- <router-outlet name="popup"></router-outlet> -->
