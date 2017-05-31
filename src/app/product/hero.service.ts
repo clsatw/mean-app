@@ -20,22 +20,27 @@ export class HeroService {
         return Promise.resolve(HEROES);
     }
 */
-    // Each Http service method returns an Observable of HTTP Response objects.
-    getHero(id: string): Observable<Hero.R> {
+    getProdTypes(val: string): Observable<any[]> {
         return this.http
-            .get(`${this.heroesUrl}/${id}`)
+            .get(`${this.heroesUrl}?type=${val}`)
+            // .filter(hero => hero.type === val)
+            .map((res: Response) => res.json())
+            .catch(this.handleError);
+    }
+
+    // Each Http service method returns an Observable of HTTP Response objects.
+    getHero(id: string): Observable<any[]> {
+        return this.http.get(`${this.heroesUrl}/${id}`)
             // .filter(hero => hero.id === id)
             .map((res: Response) => res.json())
             .catch(this.handleError);
     }
 
-    getHeroes(): Observable<Hero.R[]> {
-        return this.http
-            .get(this.heroesUrl)
-            // chain map method to extract heroes from the response data
-            .map((res: Response) => {
-                const prods = res.json();
-                return prods;
+    getHeroes(type, price = 0): Observable<any[]> {
+        return this.http.get(this.heroesUrl)            // chain map method to extract heroes from the response data
+            .map(res => res.json())
+            .map(dataArray => {
+                return dataArray.filter(hero => hero.type === type)
             })
             // .map(this.extractData)
             .catch(this.handleError);

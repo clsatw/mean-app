@@ -6,12 +6,13 @@
 </md-toolbar>
 
 <nav md-tab-nav-bar>
-  <a md-tab-link
+  <a md-tab-link mdTooltip='Please logon!'
      *ngFor="let link of navLinks"
      [routerLink]="link"
      routerLinkActive #rla="routerLinkActive"
      [active]="rla.isActive">
-    {{link | uppercase}}
+    <md-icon>home</md-icon>{{link | uppercase}}
+    
   </a>
 </nav>
 

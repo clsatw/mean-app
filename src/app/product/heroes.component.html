@@ -1,4 +1,5 @@
 <h2>My Heroes</h2>
+<!--
 <div *ngIf='heroes'>
   <ul class="heroes">
     <li *ngFor="let hero of heroes" (click)='onSelect(hero)' [class.selected]='hero === selectedHero'>
@@ -6,59 +7,71 @@
       <button class="delete" (click)="delete(hero); $event.stopPropagation()">x</button>
     </li>
   </ul>
-</div>
+-->
 
-<div *ngIf="selectedHero">
-  <h2>
-    {{selectedHero.name | uppercase}} is my hero
-  </h2>
+<input type='text' placeholder='Enter type' [formControl]='searchInput'>
 
-  <form [formGroup]="heroForm" (ngSubmit)='onSubmit()' novalidate>
-    <button md-raised-button type="submit" [disabled]="heroForm.pristine">Save</button>    
-    <div class="form-group">
-      <label class="center-block">ID:
+<div *ngIf='heroes'>
+  <md-list>
+    <md-list-item *ngFor="let hero of heroes" (click)='onSelect(hero)' [class.selected]='hero === selectedHero'>
+      <img md-list-avatar src='{{hero.imgUrl}}' />
+      <p md-line> <span>{{hero.id}}</span> {{hero.type}} {{hero.name}}</p>
+      <button md-raised-button class="delete" (click)="delete(hero); $event.stopPropagation()">
+        <md-icon>delete_forever</md-icon>
+      </button>
+    </md-list-item>
+  </md-list>
+
+  <div *ngIf="selectedHero">
+    <h2>
+      {{selectedHero.name | uppercase}} is my hero
+    </h2>
+
+    <form [formGroup]="heroForm" (ngSubmit)='onSubmit()' novalidate>
+      <button md-raised-button type="submit" [disabled]="heroForm.pristine">Save</button>
+
+      <label>ID:
         <md-input-container>
-          <input mdInput type='number' placeholder='ID' class="form-control" formControlName="id">
+          <input mdInput type='number' placeholder='ID' formControlName="id">
         </md-input-container>
       </label>
-    </div>
-    <div class="form-group">
-      <label class="center-block">Name:</label>
+
+      <label>Name:
       <md-input-container>
-        <input mdInput class="form-control" formControlName="name">
+        <input mdInput formControlName="name">
       </md-input-container>
+      </label>
       <span class='errors' *ngIf="heroForm.get('name').invalid && heroForm.get('name').touched">
-          <span *ngIf="heroForm.get('name').hasError('required')"> Name is required.</span>
+      <span *ngIf="heroForm.get('name').hasError('required')"> {{titleAlert}}</span>
       <span *ngIf="heroForm.get('name').hasError('minlength')">Min 3 chars</span>
       <span *ngIf="heroForm.get('name').hasError('notmatch')"> {{name.errors.nomatch.expected}}</span>
       </span>
-    </div>
-    <div class="form-group">
-      <label class="center-block">Price:</label>
+
+      <label>Price:
       <md-input-container>
-        <input mdInput class="form-control" formControlName="price">
+        <input mdInput formControlName="price">
       </md-input-container>
-      <div class='error' *ngIf="heroForm.get('price').invalid && heroForm.get('price').touched">Price is required.</div>
-    </div>
-    <div class="form-group">
-      <label class="center-block">Type:</label>
+      </label>
+      <div class='errors' *ngIf="heroForm.controls['price'].invalid && heroForm.controls['price'].touched">
+        {{titleAlert}}
+      </div>
+
+      <label>Type:
       <md-input-container>
-        <input mdInput class="form-control" formControlName="type">
+        <input mdInput formControlName="type">
       </md-input-container>
-    </div>
-    
-  </form>
-  <p>Form value: {{ heroForm.value | json }}</p>
-  <p>Form status: {{ heroForm.status | json }}</p>
+      </label>
+    </form>
 
-  <p>name err: {{ heroForm.get('name').errors | json}}</p>
-  <p>price err: {{ heroForm.get('price').errors | json}}</p>
+    <p>Form value: {{ heroForm.value | json }}</p>
+    <p>Form status: {{ heroForm.status | json }}</p>
 
-  <!-- <label>Hero name:</label> <input #heroName /> -->
-  <hr>
+    <p>name err: {{ heroForm.get('name').errors | json}}</p>
+    <p>price err: {{ heroForm.get('price').errors | json}}</p>
 
-  <div>
-    <button md-raised-button (click)="gotoDetail()">View Details</button>
-  </div>
-</div>
-<p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
+    <!-- <label>Hero name:</label> <input #heroName /> -->
+    <hr>
+
+    <div>
+      <button md-raised-button (click)="gotoDetail()">View Details</button>
+      <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>

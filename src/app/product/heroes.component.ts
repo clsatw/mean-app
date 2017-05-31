@@ -1,10 +1,11 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
-import { AbstractControl, FormBuilder, FormGroup, Validators, ValidationErrors } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators, ValidationErrors, FormControl } from '@angular/forms';
 
 import * as Hero from './hero';
 import { HeroService } from './hero.service';
 import * as gg from './mock-data';
+// tslint:disable-next-line:quotemark
 
 @Component({
   selector: 'app-hero',
@@ -12,15 +13,17 @@ import * as gg from './mock-data';
   styleUrls: ['./heroes.component.css']
 })
 export class HeroesComponent implements OnInit {
+  searchInput: FormControl;
   errorMessage: string;
-  heroes: Hero.R[];
+  titleAlert = 'This field is required';
+  heroes: any[];
   // formGroup contains FormControl
   heroForm: FormGroup;
   // formError _messages: { [id: string]:}
   selectedHero: Hero.R;
 
   constructor(private _fb: FormBuilder, private router: Router, private heroService: HeroService) {
-    this.createForm();
+    this.searchInput = new FormControl('');
   };
 
   // custom validator
@@ -33,8 +36,12 @@ export class HeroesComponent implements OnInit {
   createForm() {
     this.heroForm = this._fb.group({
       id: '',
-      type: ['', Validators.required],
-      name: ['', [Validators.required, Validators.minLength(4)]],
+      type: [null, Validators.required],
+      name: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(6)
+      ])],
       price: ['', Validators.required],
       imgUrl: ''
     }, { validator: this.passwordWatcher });
@@ -59,20 +66,31 @@ export class HeroesComponent implements OnInit {
       this.add(hero);
     }
     */
-    this.getHeroes();
+    this.createForm();
+
+    this.searchInput.valueChanges
+      .debounceTime(500)
+      .switchMap((prodType: string) => {
+        return this.heroService.getHeroes(prodType, 0)
+      })
+      .subscribe(
+        heroes => this.heroes = heroes,
+        error => this.errorMessage = <any>error);
+
+    // this.getHeroes();
   }
 
   onSelect(hero: any) {
     this.selectedHero = hero;
   }
-
-  getHeroes() {
-    this.heroService.getHeroes()
-      .subscribe(
-      heroes => this.heroes = heroes,
-      error => this.errorMessage = <any>error);
-  }
-
+  /*
+    getHeroes() {
+      this.heroService.getHeroes()
+        .subscribe(
+        heroes => this.heroes = heroes,
+        error => this.errorMessage = <any>error);
+    }
+  */
   gotoDetail(): void {
     this.router.navigate(['/heroes/', this.selectedHero._id]);
   }
@@ -84,7 +102,7 @@ export class HeroesComponent implements OnInit {
       .subscribe((data: Hero.W) => {
         if (data) {
           this.selectedHero = null
-          this.router.navigate(['/heroes']);
+          this.router.navigateByUrl('/heroes');
         } else {
           this.errorMessage = 'Unable to save customer';
         }
@@ -105,15 +123,17 @@ export class HeroesComponent implements OnInit {
   }
 
   delete(hero: Hero.R) {
-    this.heroService.delete(hero._id)
+    this.heroService.delete(hero._id);
+    /*
       .subscribe((status: boolean) => {
         if (status) {
-          this.router.navigate(['/']);
+          this.router.navigateByUrl('/heroes');
         } else {
           this.errorMessage = 'Unable to delete customer';
         }
       },
       (err) => console.log(err));
+    */
 
     /*
    .then(() => {

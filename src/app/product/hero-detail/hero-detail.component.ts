@@ -16,7 +16,7 @@ import { HeroService } from '../hero.service';
 export class HeroDetailComponent implements OnInit {
   // @Input() hero: Hero.R;
   errorMessage: string;
-  hero: Hero.R;
+  hero: any[];
   constructor(
     private heroService: HeroService,
     private route: ActivatedRoute,
