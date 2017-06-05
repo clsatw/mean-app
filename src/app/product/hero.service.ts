@@ -4,7 +4,8 @@ import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-// import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/filter';
 
 import * as Hero from './hero';
 // import { Data } from './mock-data';
@@ -14,12 +15,12 @@ export class HeroService {
     private heroesUrl = 'http://localhost:3000/prods/hero';
     constructor(private http: Http) { }
 
-/*
-    getHeroes(): Promise<Hero[]> {
-        let HEROES = Data.createRandomCatalog(5);
-        return Promise.resolve(HEROES);
-    }
-*/
+    /*
+        getHeroes(): Promise<Hero[]> {
+            let HEROES = Data.createRandomCatalog(5);
+            return Promise.resolve(HEROES);
+        }
+    */
     getProdTypes(val: string): Observable<any[]> {
         return this.http
             .get(`${this.heroesUrl}?type=${val}`)
@@ -35,17 +36,25 @@ export class HeroService {
             .map((res: Response) => res.json())
             .catch(this.handleError);
     }
-
-    getHeroes(type, price = 0): Observable<any[]> {
-        return this.http.get(this.heroesUrl)            // chain map method to extract heroes from the response data
-            .map(res => res.json())
-            .map(dataArray => {
-                return dataArray.filter(hero => hero.type === type)
-            })
-            // .map(this.extractData)
+    /*
+        getHeroes(type, price = 0): Observable<any[]> {
+            return this.http.get(this.heroesUrl)            // chain map method to extract heroes from the response data
+                .map(res => res.json())
+                .map(dataArray => {
+                    return dataArray.filter(hero => hero.type === type)
+                })
+                // .map(this.extractData)
+                .catch(this.handleError);
+        }
+    */
+  
+    getHeroes(type: string, price = 0): Observable<any[]> {
+        return this.http.get(this.heroesUrl)            // chain map method to extract heroes from the response data            
+            .map((res: Response) => res.json().filter(x => x.type === type && x.price > 0))            
             .catch(this.handleError);
+            
     }
-
+ 
     // tslint:disable-next-line:member-ordering
     private headers = new Headers({ 'Content-Type': 'application/json' });
 

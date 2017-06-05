@@ -5,6 +5,8 @@ import { AbstractControl, FormBuilder, FormGroup, Validators, ValidationErrors, 
 import * as Hero from './hero';
 import { HeroService } from './hero.service';
 import * as gg from './mock-data';
+import { filter } from "rxjs/operator/filter";
+import { Observable } from "rxjs/Observable";
 // tslint:disable-next-line:quotemark
 
 @Component({
@@ -13,7 +15,15 @@ import * as gg from './mock-data';
   styleUrls: ['./heroes.component.css']
 })
 export class HeroesComponent implements OnInit {
-  searchInput: FormControl;
+  searchInput = new FormControl();
+  options = [
+    'books',
+    'Clothing',
+    'Electronics',
+    'Food'
+  ];
+  filteredOptions: Observable<string[]>;
+
   errorMessage: string;
   titleAlert = 'This field is required';
   heroes: any[];
@@ -23,7 +33,7 @@ export class HeroesComponent implements OnInit {
   selectedHero: Hero.R;
 
   constructor(private _fb: FormBuilder, private router: Router, private heroService: HeroService) {
-    this.searchInput = new FormControl('');
+    //this.searchInput = new FormControl('');
   };
 
   // custom validator
@@ -66,18 +76,28 @@ export class HeroesComponent implements OnInit {
       this.add(hero);
     }
     */
+    this.filteredOptions = this.searchInput.valueChanges
+      .startWith(null)
+      .map(val => val ? this.filter(val) : this.options.slice());
     this.createForm();
 
     this.searchInput.valueChanges
       .debounceTime(500)
-      .switchMap((prodType: string) => {
-        return this.heroService.getHeroes(prodType, 0)
+      .switchMap((val: string) => {
+        return this.heroService.getHeroes(val, 0);
       })
-      .subscribe(
-        heroes => this.heroes = heroes,
-        error => this.errorMessage = <any>error);
+      .subscribe(heroes => {
+        console.log('next: ', heroes);
+        this.heroes = heroes
+      },
+      error => this.errorMessage = <any>error
+      );
 
     // this.getHeroes();
+  }
+
+  filter(val: string): string[] {
+    return this.options.filter(option => new RegExp(`^${val}`, 'gi').test(option));
   }
 
   onSelect(hero: any) {
