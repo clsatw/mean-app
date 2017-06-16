@@ -3,7 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 
-import * as Hero from '../hero';
+import {IHero} from '../hero';
 import { HeroService } from '../hero.service';
 
 @Component({
@@ -16,7 +16,7 @@ import { HeroService } from '../hero.service';
 export class HeroDetailComponent implements OnInit {
   // @Input() hero: Hero.R;
   errorMessage: string;
-  hero: any[];
+  hero: IHero;
   constructor(
     private heroService: HeroService,
     private route: ActivatedRoute,

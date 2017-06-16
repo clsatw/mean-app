@@ -1,4 +1,4 @@
-import * as Hero from './hero';
+// import {IHero} from './hero';
 
 /*
  The createRandomObject() function will create a product with a random type and
@@ -19,11 +19,11 @@ The createRandomCatalog() function will return an array containing a specified
  attribute.
 */
 export function createRandomCatalog (num: number) {
-  const catalog: Hero.W[] = [];
+  const catalog: any[] = [];
   for (let i = 0; i < num; i++) {
     const obj = createRandomProduct();
     catalog.push({
-      id: i,
+      // id: i,
       type: obj.type,
       name: obj.name,
       price: obj.price,

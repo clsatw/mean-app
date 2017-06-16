@@ -12,9 +12,9 @@
   <input type='text' placeholder='Enter type' mdInput [formControl]='searchInput' [mdAutocomplete]='auto'>
 </md-input-container>
 <md-autocomplete #auto='mdAutocomplete'>
-   <md-option *ngFor="let option of filteredOptions | async" [value]="option">
-      {{ option }}
-   </md-option>
+  <md-option *ngFor="let option of filteredOptions | async" [value]="option">
+    {{ option }}
+  </md-option>
 </md-autocomplete>
 
 <div *ngIf='heroes'>
@@ -33,40 +33,51 @@
       {{selectedHero.name | uppercase}} is my hero
     </h2>
 
+    <!-- reactive form - editing -->
     <form [formGroup]="heroForm" (ngSubmit)='onSubmit()' novalidate>
-      <button md-raised-button type="submit" [disabled]="heroForm.pristine">Save</button>
+      <fieldset>
+        <div class="form-group" [ngClass]="{'has-error': formError.id }">
+          <label>ID:</label>
+          <md-input-container>
+            <input mdInput type='number' placeholder='ID' formControlName="id">
+          </md-input-container>
+          <span class='help-block' *ngIf ='formError.id'>{{formError.id}}</span>
+        </div>
 
-      <label>ID:
-        <md-input-container>
-          <input mdInput type='number' placeholder='ID' formControlName="id">
-        </md-input-container>
-      </label>
-
-      <label>Name:
-      <md-input-container>
-        <input mdInput formControlName="name">
-      </md-input-container>
-      </label>
-      <span class='errors' *ngIf="heroForm.get('name').invalid && heroForm.get('name').touched">
+        <div class="form-group" [ngClass]="{'has-error': formError.name }">
+          <label>Name:</label>
+          <md-input-container>
+            <input type='text' mdInput formControlName="name">
+          </md-input-container>
+          <span class='help-block' *ngIf ='formError.name'>{{formError.name}}</span>
+        </div>
+        <!--  
+        <span class='errors' *ngIf="heroForm.get('name').invalid && heroForm.get('name').touched">
       <span *ngIf="heroForm.get('name').hasError('required')"> {{titleAlert}}</span>
-      <span *ngIf="heroForm.get('name').hasError('minlength')">Min 3 chars</span>
-      <span *ngIf="heroForm.get('name').hasError('notmatch')"> {{name.errors.nomatch.expected}}</span>
-      </span>
+        <span *ngIf="heroForm.get('name').hasError('minlength')">Min 3 chars</span>
+        <span *ngIf="heroForm.get('name').hasError('notmatch')"> {{name.errors.nomatch.expected}}</span>
+        </span>
+      -->
 
-      <label>Price:
-      <md-input-container>
-        <input mdInput formControlName="price">
-      </md-input-container>
-      </label>
-      <div class='errors' *ngIf="heroForm.controls['price'].invalid && heroForm.controls['price'].touched">
-        {{titleAlert}}
-      </div>
+        <div class="form-group" [ngClass]="{'has-error': formError.price }">
+          <label>Price:</label>
+          <md-input-container>
+            <input type='text' mdInput formControlName="price">
+          </md-input-container>
+          <span class='help-block' *ngIf ='formError.price'>{{formError.price}}</span>
+        </div>
 
-      <label>Type:
-      <md-input-container>
-        <input mdInput formControlName="type">
-      </md-input-container>
-      </label>
+        <div class="form-group" [ngClass]="{'has-error': formError.type }">
+          <label>Type:</label>
+          <md-input-container>
+            <input type='text' mdInput formControlName="type">
+          </md-input-container>
+          <span class='help-block' *ngIf ='formError.type'>{{formError.type}}</span>
+        </div>
+
+        <button md-raised-button type="submit" [disabled]="heroForm.pristine">Save</button>
+
+      </fieldset>
     </form>
 
     <p>Form value: {{ heroForm.value | json }}</p>

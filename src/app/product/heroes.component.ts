@@ -1,10 +1,12 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
-import { AbstractControl, FormBuilder, FormGroup, Validators, ValidationErrors, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
-import * as Hero from './hero';
+import {IHero} from './hero';
 import { HeroService } from './hero.service';
 import * as gg from './mock-data';
+import { NumberValidators } from '../shared/number.validator'
+
 import { filter } from "rxjs/operator/filter";
 import { Observable } from "rxjs/Observable";
 // tslint:disable-next-line:quotemark
@@ -16,12 +18,7 @@ import { Observable } from "rxjs/Observable";
 })
 export class HeroesComponent implements OnInit {
   searchInput = new FormControl();
-  options = [
-    'books',
-    'Clothing',
-    'Electronics',
-    'Food'
-  ];
+  options: string[];
   filteredOptions: Observable<string[]>;
 
   errorMessage: string;
@@ -29,36 +26,63 @@ export class HeroesComponent implements OnInit {
   heroes: any[];
   // formGroup contains FormControl
   heroForm: FormGroup;
+  formError: { [id: string]: string };
+  private validationMessages: { [id: string]: { [id: string]: string } };
   // formError _messages: { [id: string]:}
-  selectedHero: Hero.R;
+  selectedHero: IHero;
 
   constructor(private _fb: FormBuilder, private router: Router, private heroService: HeroService) {
     //this.searchInput = new FormControl('');
+    // Initialize strings
+    this.options = ['books', 'Clothing', 'Electronics', 'Food'];   
+    this.formError = {
+      'id': '',
+      'type': '',
+      'name': '',
+      'price': ''
+    };
+    // could be retireve from database for differnet languages
+    this.validationMessages = {
+      'id': {
+        'required': 'id is required',
+        'minlength': 'id must be at least three characters.',
+        'maxlength': 'id cannot exceed 50 characters.'
+      },
+      'type': {
+        'required': 'type is required',
+        'minlength': 'type must be at least 5 characters.',
+        'maxlength': 'type cannot exceed 50 characters.'
+      },
+      'name': {
+        'required': 'name is required',
+        'minlength': 'name must be at least 5 characters.',
+        'maxlength': 'name cannot exceed 50 characters.'
+      },
+      'price': {
+        'range': 'price muse be btw 1 (lowest) and 999 (highest).'
+      }
+    };
   };
-
-  // custom validator
-  passwordWatcher(ctrl: AbstractControl): ValidationErrors | null {
-    return ctrl.get('type').value !== ctrl.get('name').value
-      ? null
-      : { 'nomatch': { expected: 'certain value', acutal: ctrl.get('type').value } };
-  }
 
   createForm() {
     this.heroForm = this._fb.group({
-      id: '',
+      id: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(50)])],
       type: [null, Validators.required],
       name: ['', Validators.compose([
         Validators.required,
-        Validators.minLength(4),
-        Validators.maxLength(6)
+        Validators.minLength(5),
+        Validators.maxLength(50)
       ])],
-      price: ['', Validators.required],
+      price: ['', NumberValidators.range(1, 999)],
       imgUrl: ''
-    }, { validator: this.passwordWatcher });
-    // to set all value use setvalue method.
-    this.heroForm.patchValue({
-      imgUrl: 'http://lorempixel.com/400/200',
-    })
+    }),
+      // to set all value use setvalue method.
+      this.heroForm.patchValue({
+        imgUrl: 'http://lorempixel.com/400/200',
+      })
   }
 
   get price() { return this.heroForm.get('price'); }
@@ -70,16 +94,21 @@ export class HeroesComponent implements OnInit {
 
   ngOnInit() {
     /* create mock data, To remove the collection: db.prods.drop
-    let mockData: Hero.W[];
+    let mockData: IHero[];
     mockData = gg.createRandomCatalog(6);
     for (const hero of mockData) {
       this.add(hero);
     }
     */
+
     this.filteredOptions = this.searchInput.valueChanges
       .startWith(null)
       .map(val => val ? this.filter(val) : this.options.slice());
+
     this.createForm();
+    this.heroForm.valueChanges
+      .debounceTime(500)
+      .subscribe(data => this.onValueChanged(data));
 
     this.searchInput.valueChanges
       .debounceTime(500)
@@ -90,7 +119,8 @@ export class HeroesComponent implements OnInit {
         console.log('next: ', heroes);
         this.heroes = heroes
       },
-      error => this.errorMessage = <any>error
+      error => this.errorMessage = <any>error,
+      ()=>console.log('Stream is over')
       );
 
     // this.getHeroes();
@@ -100,6 +130,23 @@ export class HeroesComponent implements OnInit {
     return this.options.filter(option => new RegExp(`^${val}`, 'gi').test(option));
   }
 
+  // Start of a generic validator
+  onValueChanged(data: any): void {
+    for (const field in this.formError) {
+      if (this.formError.hasOwnProperty(field)) {
+        const hasError = this.heroForm.controls[field].dirty &&
+          !this.heroForm.controls[field].valid;
+        this.formError[field] = '';
+        if (hasError) {
+          for (const key in this.heroForm.controls[field].errors) {
+            if (this.heroForm.controls[field].errors.hasOwnProperty(key)) {
+              this.formError[field] += this.validationMessages[field][key] + ' ';
+            }
+          }
+        }
+      }
+    }
+  }
   onSelect(hero: any) {
     this.selectedHero = hero;
   }
@@ -115,14 +162,14 @@ export class HeroesComponent implements OnInit {
     this.router.navigate(['/heroes/', this.selectedHero._id]);
   }
 
-  add(hero: Hero.W): void {
+  add(hero: IHero): void {
     // name = name.trim();
     if (!hero) { return; }
     this.heroService.add(hero)
-      .subscribe((data: Hero.W) => {
+      .subscribe((data: IHero) => {
         if (data) {
           this.selectedHero = null
-          this.router.navigateByUrl('/heroes');
+          this.router.navigateByUrl('/heroes/list');
         } else {
           this.errorMessage = 'Unable to save customer';
         }
@@ -130,7 +177,7 @@ export class HeroesComponent implements OnInit {
       error => this.errorMessage = <any>error);
   }
 
-  update(hero: Hero.W) {
+  update(hero: IHero) {
     this.heroService.update(hero)
       .subscribe((heor: any) => {
         if (hero) {
@@ -142,8 +189,10 @@ export class HeroesComponent implements OnInit {
       (err) => console.log(err));
   }
 
-  delete(hero: Hero.R) {
+  delete(hero: IHero) {
     this.heroService.delete(hero._id);
+    this.router.navigateByUrl('/heroes/list');
+
     /*
       .subscribe((status: boolean) => {
         if (status) {

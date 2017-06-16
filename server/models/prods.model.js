@@ -15,18 +15,15 @@ var prodSchema = new mongoose.Schema({
 		required: true,
 		default: ''
 	},
-		price: {
+	price: {
 		type: String,
 		default: ''
 	},
 	imgUrl: {
 		type: String,
 		default: ''
-	},
-
-	//description:    { type: String, default: '' },
-	//picture:        { type: String, default: '' },
-});
+	}
+}, { versionKey: false });
 
 // order schema should be created late on for order management
 

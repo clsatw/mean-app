@@ -6,8 +6,10 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/do';
+// import 'rxjs/add/operator/of';
 
-import * as Hero from './hero';
+import {IHero} from './hero';
 // import { Data } from './mock-data';
 
 @Injectable()
@@ -20,7 +22,7 @@ export class HeroService {
             let HEROES = Data.createRandomCatalog(5);
             return Promise.resolve(HEROES);
         }
-    */
+   
     getProdTypes(val: string): Observable<any[]> {
         return this.http
             .get(`${this.heroesUrl}?type=${val}`)
@@ -28,37 +30,35 @@ export class HeroService {
             .map((res: Response) => res.json())
             .catch(this.handleError);
     }
-
+    */
     // Each Http service method returns an Observable of HTTP Response objects.
-    getHero(id: string): Observable<any[]> {
+    getHero(id: string): Observable<IHero> {
         return this.http.get(`${this.heroesUrl}/${id}`)
             // .filter(hero => hero.id === id)
             .map((res: Response) => res.json())
             .catch(this.handleError);
     }
     /*
-        getHeroes(type, price = 0): Observable<any[]> {
+        getHeroes(type, price = 0): Observable<IHero[]> {
             return this.http.get(this.heroesUrl)            // chain map method to extract heroes from the response data
                 .map(res => res.json())
-                .map(dataArray => {
-                    return dataArray.filter(hero => hero.type === type)
-                })
+                .do(data => console.log(JSON.stringify(data)))
+                .filter(hero => hero.type === type)                
                 // .map(this.extractData)
                 .catch(this.handleError);
         }
     */
   
-    getHeroes(type: string, price = 0): Observable<any[]> {
+    getHeroes(type: string, price = 0): Observable<IHero[]> {
         return this.http.get(this.heroesUrl)            // chain map method to extract heroes from the response data            
-            .map((res: Response) => res.json().filter(x => x.type === type && x.price > 0))            
+            .map((res: Response) => res.json().filter(x => x.type === type && x.price > 0)) 
             .catch(this.handleError);
-            
     }
  
     // tslint:disable-next-line:member-ordering
     private headers = new Headers({ 'Content-Type': 'application/json' });
 
-    update(hero: any): Observable<any> {
+    update(hero: IHero): Observable<any> {
         const url = `${this.heroesUrl}/${hero._id}`;
         return this.http
             .put(url, JSON.stringify(hero), { headers: this.headers })
@@ -70,14 +70,11 @@ export class HeroService {
             .catch(this.handleError);
     }
 
-    add(hero: Hero.W): Observable<Hero.W> {
+    add(hero: IHero): Observable<IHero> {
         return this.http
             .post(this.heroesUrl, JSON.stringify(hero), { headers: this.headers })
             // .map(res => res.json().data)
-            .map((res: Response) => {
-                const data = res.json();
-                return data.hero;
-            })
+            .map((res: Response) => res.json())
             .catch(this.handleError);
     }
 
