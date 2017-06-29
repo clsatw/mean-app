@@ -7,10 +7,49 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
-            "program": "${file}",
-            "outFiles": [
-                "${workspaceRoot}/out/**/*.js"
+            "name": "node",
+            "protocol": "inspector",
+            "runtimeExecutable": "npm",
+            "windows": {
+                "runtimeExecutable": "npm.cmd"
+            },
+            "runtimeArgs": [
+                "run-script",
+                "node"
+            ],
+            "console": "integratedTerminal",
+            "port": 5858
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "angular",
+            "runtimeExecutable": "npm",
+            "windows": {
+                "runtimeExecutable": "npm.cmd"
+            },
+            "runtimeArgs": [
+                "run-script",
+                "debug"
+            ],
+            "console": "integratedTerminal",
+            "port": 5858
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "chrome",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceRoot}"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "full-stack",
+            "configurations": [
+                "node",
+                "angular",
+                "chrome"
             ]
         }
     ]

@@ -26,7 +26,7 @@ export class LogonComponent {
       if (this.authService.isLoggedIn) {
         // Get the redirect URL from our auth service
         // If no redirect has been set, use the default
-        const redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/crisis-center/admin';
+        const redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/admin';
         // Redirect the user
         this.router.navigate([redirect]);
       }

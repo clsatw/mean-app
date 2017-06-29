@@ -21,7 +21,7 @@ import { AppRoutingModule } from './router/app-routing.module';
 // feature module
 // import { AdminModule } from 'app/admin/admin.module';
 import { CoreModule } from 'app/core/core.module';
-import { AuthGuard } from 'app/shared/auth-load-guard.service';
+import { AuthGuardService } from 'app/shared/auth-load-guard.service';
 import { AuthService } from 'app/user/logon/auth.service';
 import { Material2Module } from 'app/material2/material2.module';
 
@@ -40,7 +40,7 @@ import { Material2Module } from 'app/material2/material2.module';
     AppRoutingModule,
   ],
   providers: [
-    AuthGuard,
+    AuthGuardService,
     AuthService
   ],
   // providers: [PostsService],

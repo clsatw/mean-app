@@ -2,7 +2,7 @@ import { Component, OnInit, OnChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
-import {IHero} from './hero';
+import { IHero } from './hero';
 import { HeroService } from './hero.service';
 import * as gg from './mock-data';
 import { NumberValidators } from '../shared/number.validator'
@@ -34,7 +34,7 @@ export class HeroesComponent implements OnInit {
   constructor(private _fb: FormBuilder, private router: Router, private heroService: HeroService) {
     //this.searchInput = new FormControl('');
     // Initialize strings
-    this.options = ['books', 'Clothing', 'Electronics', 'Food'];   
+    this.options = ['books', 'Clothing', 'Electronics', 'Food'];
     this.formError = {
       'id': '',
       'type': '',
@@ -116,11 +116,11 @@ export class HeroesComponent implements OnInit {
         return this.heroService.getHeroes(val, 0);
       })
       .subscribe(heroes => {
-        console.log('next: ', heroes);
+        // console.log('next: ', heroes);
         this.heroes = heroes
       },
       error => this.errorMessage = <any>error,
-      ()=>console.log('Stream is over')
+      () => console.log('Stream is over')
       );
 
     // this.getHeroes();
@@ -190,19 +190,16 @@ export class HeroesComponent implements OnInit {
   }
 
   delete(hero: IHero) {
-    this.heroService.delete(hero._id);
-    this.router.navigateByUrl('/heroes/list');
-
-    /*
+    this.heroService.delete(hero._id)
       .subscribe((status: boolean) => {
         if (status) {
-          this.router.navigateByUrl('/heroes');
+          this.router.navigateByUrl('/heroes/list');
         } else {
           this.errorMessage = 'Unable to delete customer';
         }
       },
       (err) => console.log(err));
-    */
+
 
     /*
    .then(() => {
