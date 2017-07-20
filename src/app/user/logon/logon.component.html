@@ -1,0 +1,23 @@
+<h2>LOGIN</h2>
+<p>{{message}}</p>
+<div layout='column' flex-xs flex-get-xs='300' ng-cloak layout-align='center center' style='height:100%'>
+    <md-card md-theme='default'>
+        <md-card-content>
+            <form name='logonFrom'>
+                <md-input-container>
+                    <label> Username</label>
+                    <input mdInput name='username' type='text'>
+                </md-input-container>
+                <md-input-container>
+                    <label>Password</label>
+                    <input mdInput name='password' type='text'>
+                </md-input-container>
+            </form>
+        </md-card-content>
+
+        <md-card-actions layout='row' layout-align='end center'>
+            <button md-raised-button (click)="login()" *ngIf="!authService.isLoggedIn"><md-icon>lock</md-icon>Login</button>
+            <button md-button (click)="logout()" *ngIf="authService.isLoggedIn"><md-icon>lock_open</md-icon>Logout</button>
+        </md-card-actions>
+    </md-card>
+</div>

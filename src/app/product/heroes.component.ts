@@ -8,6 +8,7 @@ import * as gg from './mock-data';
 import { NumberValidators } from '../shared/number.validator'
 
 import { filter } from "rxjs/operator/filter";
+import 'rxjs/add/operator/distinctUntilChanged';
 import { Observable } from "rxjs/Observable";
 // tslint:disable-next-line:quotemark
 
@@ -102,7 +103,7 @@ export class HeroesComponent implements OnInit {
     */
 
     this.filteredOptions = this.searchInput.valueChanges
-      .startWith(null)
+      // .startWith(null)
       .map(val => val ? this.filter(val) : this.options.slice());
 
     this.createForm();
@@ -111,10 +112,10 @@ export class HeroesComponent implements OnInit {
       .subscribe(data => this.onValueChanged(data));
 
     this.searchInput.valueChanges
+      .filter(val => !!val)
       .debounceTime(500)
-      .switchMap((val: string) => {
-        return this.heroService.getHeroes(val, 0);
-      })
+      .distinctUntilChanged()
+      .switchMap((val: string) => this.heroService.getHeroes(val, 0))
       .subscribe(heroes => {
         // console.log('next: ', heroes);
         this.heroes = heroes

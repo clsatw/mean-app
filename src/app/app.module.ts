@@ -2,8 +2,10 @@
 // What AppModule imports is irrelevant to ContactModule and vice versa
 
 import { NgModule } from '@angular/core';
+import { BrowserModule }      from '@angular/platform-browser';
+
 // BrowserAnimationsModule excludes commonmodule which is required for data binding
-import { CommonModule } from '@angular/common';
+// import { CommonModule } from '@angular/common';
 
 // use browserAnimationsModule inlcudes browserModule
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -28,13 +30,15 @@ import { Material2Module } from 'app/material2/material2.module';
 @NgModule({
   declarations: [
     AppComponent,
+    // PageNotFoundComponent
   ],
   imports: [
-    // any angular system pieces & 3rd-party modules that we want to use
-    BrowserAnimationsModule,
-    Material2Module,
-    CommonModule,
+    // any angular system pieces & 3rd-party modules that we want to use     
+    BrowserModule,
+    BrowserAnimationsModule, 
+    // CommonModule,
     // ReactiveFormsModule, // <-- #2 add to Angular module imports
+    Material2Module,
     HttpModule,
     CoreModule,
     AppRoutingModule,

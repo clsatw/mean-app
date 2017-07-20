@@ -3,13 +3,12 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+// formsModule is for 2-way binding
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { async } from 'rxjs/scheduler/async';
+// import { async } from 'rxjs/scheduler/async';
 
 @NgModule({
-  imports: [
-    CommonModule,
-  ],
+  imports: [CommonModule],
   exports: [
     CommonModule,
     FormsModule,
@@ -18,6 +17,7 @@ import { async } from 'rxjs/scheduler/async';
     // StarComponent
   ],
   // declar StarComponent later
+  // components shared by modules
   declarations: [  ],
 })
 export class SharedModule { }

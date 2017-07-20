@@ -10,6 +10,7 @@ import { Material2Module } from 'app/material2/material2.module';
 import { HeroesComponent } from './heroes.component';
 import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 import { HeroService } from './hero.service';
+import { SearchService } from './../search.service';
 
 /*
 const routes: Routes = [
@@ -47,6 +48,6 @@ const routes: Routes = [
   ** a selector. No template will ever again reference this ContactComponent.
   */
   // application wide
-  providers: [HeroService]
+  providers: [HeroService, SearchService]
 })
 export class ProductModule { }

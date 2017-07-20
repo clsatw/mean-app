@@ -10,6 +10,7 @@ import { PostsService } from 'app/core/posts.service';
   ],
   declarations: [],
   providers: [
+    // application-wide - avaialbe to any component that needs it.
     PostsService
   ]
 })

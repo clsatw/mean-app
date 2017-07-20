@@ -38,23 +38,23 @@ export class HeroService {
             .map((res: Response) => res.json())
             .catch(this.handleError);
     }
-    /*
-        getHeroes(type, price = 0): Observable<IHero[]> {
+/* 
+        getHeroes(): Observable<IHero[]> {
             return this.http.get(this.heroesUrl)            // chain map method to extract heroes from the response data
                 .map(res => res.json())
-                .do(data => console.log(JSON.stringify(data)))
-                .filter(hero => hero.type === type)                
+                // .do(data => console.log(JSON.stringify(data)))
+                // .filter(hero => hero.type === type)                
                 // .map(this.extractData)
                 .catch(this.handleError);
         }
-    */
-  
+*/ 
+
     getHeroes(type: string, price = 0): Observable<IHero[]> {
         return this.http.get(this.heroesUrl)            // chain map method to extract heroes from the response data            
             .map((res: Response) => res.json().filter(x => x.type === type && x.price > 0)) 
             .catch(this.handleError);
     }
- 
+
     // tslint:disable-next-line:member-ordering
     private headers = new Headers({ 'Content-Type': 'application/json' });
 
