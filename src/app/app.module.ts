@@ -26,10 +26,11 @@ import { CoreModule } from 'app/core/core.module';
 import { AuthGuardService } from 'app/shared/auth-load-guard.service';
 import { AuthService } from 'app/user/logon/auth.service';
 import { Material2Module } from 'app/material2/material2.module';
+import { FormValidationService } from "app/form-validation.service";
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent,  
     // PageNotFoundComponent
   ],
   imports: [
@@ -45,7 +46,8 @@ import { Material2Module } from 'app/material2/material2.module';
   ],
   providers: [
     AuthGuardService,
-    AuthService
+    AuthService,
+    FormValidationService
   ],
   // providers: [PostsService],
   bootstrap: [AppComponent]

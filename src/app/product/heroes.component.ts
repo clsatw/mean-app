@@ -10,6 +10,7 @@ import { NumberValidators } from '../shared/number.validator'
 import { filter } from "rxjs/operator/filter";
 import 'rxjs/add/operator/distinctUntilChanged';
 import { Observable } from "rxjs/Observable";
+import { FormValidationService } from "app/form-validation.service";
 // tslint:disable-next-line:quotemark
 
 @Component({
@@ -29,10 +30,11 @@ export class HeroesComponent implements OnInit {
   heroForm: FormGroup;
   formError: { [id: string]: string };
   private validationMessages: { [id: string]: { [id: string]: string } };
-  // formError _messages: { [id: string]:}
+
   selectedHero: IHero;
 
   constructor(private _fb: FormBuilder,
+    private FormValidationService: FormValidationService,
     private router: Router,
     private route: ActivatedRoute,
     private heroService: HeroService) {
@@ -41,18 +43,13 @@ export class HeroesComponent implements OnInit {
     this.options = ['books', 'Clothing', 'Electronics', 'Food'];
     // current validator error msg
     this.formError = {
-      'id': '',
+      // 'id': '',
       'type': '',
       'name': '',
       'price': ''
     };
     // could be retireve from database for differnet languages
-    this.validationMessages = {
-      'id': {
-        'required': 'id is required',
-        'minlength': 'id must be at least three characters.',
-        'maxlength': 'id cannot exceed 50 characters.'
-      },
+    this.validationMessages = {   
       'type': {
         'required': 'type is required',
         'minlength': 'type must be at least 5 characters.',
@@ -70,11 +67,7 @@ export class HeroesComponent implements OnInit {
   };
 
   createForm() {
-    this.heroForm = this._fb.group({
-      id: ['', Validators.compose([
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(50)])],
+    this.heroForm = this._fb.group({  
       type: [null, Validators.required],
       name: ['', Validators.compose([
         Validators.required,
@@ -89,7 +82,7 @@ export class HeroesComponent implements OnInit {
         imgUrl: 'http://lorempixel.com/400/200',
       })
   }
-
+  
   get price() { return this.heroForm.get('price'); }
 
   onSubmit() {
@@ -105,7 +98,7 @@ export class HeroesComponent implements OnInit {
       this.add(hero);
     }
     */
-    
+
     /*
     this.route.params.subscribe(
       params => {
@@ -118,12 +111,14 @@ export class HeroesComponent implements OnInit {
     this.filteredOptions = this.searchInput.valueChanges
       // .startWith(null)
       .map(val => val ? this.filter(val) : this.options.slice());
-
+    
     this.createForm();
     this.heroForm.valueChanges
       // wait till we stop typing for 500ms
       .debounceTime(500)
-      .subscribe(data => this.onValueChanged(data));
+      .subscribe(data => this.FormValidationService.onValueChanged(data,
+                                           this.formError, this.heroForm, 
+                                           this.validationMessages ));
 
     this.searchInput.valueChanges
       // .filter(val => !!val)
@@ -145,24 +140,7 @@ export class HeroesComponent implements OnInit {
     return this.options.filter(option => new RegExp(`^${val}`, 'gi').test(option));
   }
 
-  // Start of a generic validator. we can move this to a service for any reactiveForm we use
-  onValueChanged(data: any): void {
-    for (const field in this.formError) {
-      if (this.formError.hasOwnProperty(field)) {
-        const hasError = this.heroForm.controls[field].dirty &&
-          !this.heroForm.controls[field].valid;
-        this.formError[field] = '';
-        if (hasError) {
-          for (const key in this.heroForm.controls[field].errors) {
-            if (this.heroForm.controls[field].errors.hasOwnProperty(key)) {
-              // if error occurs, setting the correct validation msg into that field.
-              this.formError[field] += this.validationMessages[field][key] + ' ';
-            }
-          }
-        }
-      }
-    }
-  }
+  
   onSelect(hero: any) {
     this.selectedHero = hero;
   }
