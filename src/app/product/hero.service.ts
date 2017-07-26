@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers } from '@angular/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
@@ -7,14 +7,15 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/do';
-// import 'rxjs/add/operator/of';
+// import 'rxjs/add/operator/startWith';
 
-import {IHero} from './hero';
+import { IHero } from './hero';
 // import { Data } from './mock-data';
 
 @Injectable()
 export class HeroService {
     private heroesUrl = 'http://localhost:3000/prods/hero';
+    cachedData: IHero[];
     constructor(private http: Http) { }
 
     /*
@@ -33,35 +34,38 @@ export class HeroService {
     */
     // Each Http service method returns an Observable of HTTP Response objects.
     getHero(id: string): Observable<IHero> {
-        return this.http.get(`${this.heroesUrl}/${id}`)
+        const url = `${this.heroesUrl}/${id}`;
+        return this.http.get(url)
             // .filter(hero => hero.id === id)
-            .map((res: Response) => res.json())
+            .map((res: Response) => <IHero>res.json())
+            .do(data => console.log(JSON.stringify(data)))
             .catch(this.handleError);
     }
-/* 
-        getHeroes(): Observable<IHero[]> {
-            return this.http.get(this.heroesUrl)            // chain map method to extract heroes from the response data
-                .map(res => res.json())
-                // .do(data => console.log(JSON.stringify(data)))
-                // .filter(hero => hero.type === type)                
-                // .map(this.extractData)
-                .catch(this.handleError);
-        }
-*/ 
+    /* 
+            getHeroes(): Observable<IHero[]> {
+                return this.http.get(this.heroesUrl)            // chain map method to extract heroes from the response data
+                    .map(res => res.json())
+                    // .do(data => console.log(JSON.stringify(data)))
+                    // .filter(hero => hero.type === type)                
+                    // .map(this.extractData)
+                    .catch(this.handleError);
+            }
+    */
 
     getHeroes(type: string, price = 0): Observable<IHero[]> {
         return this.http.get(this.heroesUrl)            // chain map method to extract heroes from the response data            
-            .map((res: Response) => res.json().filter(x => x.type === type && x.price > 0)) 
+            .map((res: Response) => res.json().filter(x => x.type === type && x.price > 0))
+            // .startWith(this.cachedData)
             .catch(this.handleError);
     }
 
-    // tslint:disable-next-line:member-ordering
-    private headers = new Headers({ 'Content-Type': 'application/json' });
-
     update(hero: IHero): Observable<any> {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
+
         const url = `${this.heroesUrl}/${hero._id}`;
         return this.http
-            .put(url, JSON.stringify(hero), { headers: this.headers })
+            .put(url, JSON.stringify(hero), options)
             // .map(res => res.json().data)
             .map(res => {
                 const data = res.json();
@@ -71,16 +75,21 @@ export class HeroService {
     }
 
     add(hero: IHero): Observable<IHero> {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
         return this.http
-            .post(this.heroesUrl, JSON.stringify(hero), { headers: this.headers })
+            .post(this.heroesUrl, JSON.stringify(hero), options)
             // .map(res => res.json().data)
             .map((res: Response) => res.json())
             .catch(this.handleError);
     }
 
-    delete(id: string): Observable<boolean> {
-        const url = `${this.heroesUrl}/${id}`;
-        return this.http.delete(url, { headers: this.headers })
+    delete(hero: IHero): Observable<boolean> {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
+
+        const url = `${this.heroesUrl}/${hero._id}`;
+        return this.http.delete(url, options)
             // boolean
             .map((res: Response) => res.ok)
             .catch(this.handleError);

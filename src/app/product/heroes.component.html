@@ -18,7 +18,7 @@
 </md-autocomplete>
 
 <div *ngIf='heroes'>
-    <md-list>     
+  <md-list>
     <md-list-item *ngFor="let hero of heroes" (click)='onSelect(hero)' [class.selected]='hero === selectedHero'>
       <img md-list-avatar src='{{hero.imgUrl}}' />
       <p md-line> <span>{{hero.id}}</span> {{hero.type}} {{hero.name}} {{hero.price}}</p>
@@ -26,33 +26,33 @@
         <md-icon>delete_forever</md-icon>
       </button>
     </md-list-item>
-    </md-list>
+  </md-list>
 </div>
 
-  <div fxLayout.sm ='column' *ngIf="selectedHero">
-    <h2>
-      {{selectedHero.name | uppercase}} is my hero
-    </h2>
+<div *ngIf="selectedHero">
+  <h2>
+    {{selectedHero.name | uppercase}} is my hero
+  </h2>
 
-    <!-- reactive form - editing -->
-    <form [formGroup]="heroForm" (ngSubmit)='onSubmit()' novalidate>
-      <fieldset>
-        <div class="form-group" [ngClass]="{'has-error': formError.id }">
-          <label>ID:</label>
-          <md-input-container>
-            <input mdInput type='number' placeholder='ID' formControlName="id">
-          </md-input-container>
-          <span class='help-block' *ngIf ='formError.id'>{{formError.id}}</span>
-        </div>
+  <!-- reactive form - editing -->
+  <form [formGroup]="heroForm" (ngSubmit)='onSubmit()' novalidate>
+    <fieldset>
+      <div class="form-group" [ngClass]="{'has-error': formError.id }">
+        <label>ID:</label>
+        <md-input-container>
+          <input mdInput type='number' placeholder='ID' formControlName="id">
+        </md-input-container>
+        <span class='help-block' *ngIf="formError.id">{{formError.id}}</span>
+      </div>
 
-        <div class="form-group" [ngClass]="{'has-error': formError.name }">
-          <label>Name:</label>
-          <md-input-container>
-            <input type='text' mdInput formControlName="name">
-          </md-input-container>
-          <span class='help-block' *ngIf ='formError.name'>{{formError.name}}</span>
-        </div>
-        <!--  
+      <div class="form-group" [ngClass]="{'has-error': formError.name }">
+        <label>Name:</label>
+        <md-input-container>
+          <input type='text' mdInput formControlName="name">
+        </md-input-container>
+        <span class='help-block' *ngIf='formError.name'>{{formError.name}}</span>
+      </div>
+      <!--  
         <span class='errors' *ngIf="heroForm.get('name').invalid && heroForm.get('name').touched">
       <span *ngIf="heroForm.get('name').hasError('required')"> {{titleAlert}}</span>
         <span *ngIf="heroForm.get('name').hasError('minlength')">Min 3 chars</span>
@@ -60,36 +60,38 @@
         </span>
       -->
 
-        <div class="form-group" [ngClass]="{'has-error': formError.price }">
-          <label>Price:</label>
-          <md-input-container>
-            <input type='text' mdInput formControlName="price">
-          </md-input-container>
-          <span class='help-block' *ngIf ='formError.price'>{{formError.price}}</span>
-        </div>
+      <div class="form-group" [ngClass]="{'has-error': formError.price }">
+        <label>Price:</label>
+        <md-input-container>
+          <input type='text' mdInput formControlName="price">
+        </md-input-container>
+        <span class='help-block' *ngIf='formError.price'>{{formError.price}}</span>
+      </div>
 
-        <div class="form-group" [ngClass]="{'has-error': formError.type }">
-          <label>Type:</label>
-          <md-input-container>
-            <input type='text' mdInput formControlName="type">
-          </md-input-container>
-          <span class='help-block' *ngIf ='formError.type'>{{formError.type}}</span>
-        </div>
+      <div class="form-group" [ngClass]="{'has-error': formError.type }">
+        <label>Type:</label>
+        <md-input-container>
+          <input type='text' mdInput formControlName="type">
+        </md-input-container>
+        <span class='help-block' *ngIf='formError.type'>{{formError.type}}</span>
+      </div>
 
-        <button md-raised-button type="submit" [disabled]="heroForm.pristine">Save</button>
+      <button md-raised-button type="submit" [disabled]="heroForm.pristine">Save</button>
 
-      </fieldset>
-    </form>
+    </fieldset>
+  </form>
 
-    <p>Form value: {{ heroForm.value | json }}</p>
-    <p>Form status: {{ heroForm.status | json }}</p>
+  <p>Form value: {{ heroForm.value | json }}</p>
+  <p>Form status: {{ heroForm.status | json }}</p>
 
-    <p>name err: {{ heroForm.get('name').errors | json}}</p>
-    <p>price err: {{ heroForm.get('price').errors | json}}</p>
+  <p>name err: {{ heroForm.get('name').errors | json}}</p>
+  <p>price err: {{ heroForm.get('price').errors | json}}</p>
 
-    <!-- <label>Hero name:</label> <input #heroName /> -->
-    <hr>
 
-    <div>
-      <button md-raised-button (click)="gotoDetail()">View Details</button>
-      <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
+<!-- <label>Hero name:</label> <input #heroName /> -->
+<hr>
+
+</div>
+<button md-raised-button (click)="gotoDetail()">View Details</button>
+
+<p class="error" *ngIf="errorMessage">{{errorMessage}}</p>

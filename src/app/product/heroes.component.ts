@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 import { IHero } from './hero';
@@ -24,7 +24,7 @@ export class HeroesComponent implements OnInit {
 
   errorMessage: string;
   titleAlert = 'This field is required';
-  heroes: any[];
+  heroes: Array<any> = [];
   // formGroup contains FormControl
   heroForm: FormGroup;
   formError: { [id: string]: string };
@@ -32,10 +32,14 @@ export class HeroesComponent implements OnInit {
   // formError _messages: { [id: string]:}
   selectedHero: IHero;
 
-  constructor(private _fb: FormBuilder, private router: Router, private heroService: HeroService) {
+  constructor(private _fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
+    private heroService: HeroService) {
     //this.searchInput = new FormControl('');
     // Initialize strings
     this.options = ['books', 'Clothing', 'Electronics', 'Food'];
+    // current validator error msg
     this.formError = {
       'id': '',
       'type': '',
@@ -101,6 +105,15 @@ export class HeroesComponent implements OnInit {
       this.add(hero);
     }
     */
+    
+    /*
+    this.route.params.subscribe(
+      params => {
+        const id = +params['id'];
+        this.gotoProd(id);
+      }
+    )
+    */
 
     this.filteredOptions = this.searchInput.valueChanges
       // .startWith(null)
@@ -108,11 +121,12 @@ export class HeroesComponent implements OnInit {
 
     this.createForm();
     this.heroForm.valueChanges
+      // wait till we stop typing for 500ms
       .debounceTime(500)
       .subscribe(data => this.onValueChanged(data));
 
     this.searchInput.valueChanges
-      .filter(val => !!val)
+      // .filter(val => !!val)
       .debounceTime(500)
       .distinctUntilChanged()
       .switchMap((val: string) => this.heroService.getHeroes(val, 0))
@@ -131,7 +145,7 @@ export class HeroesComponent implements OnInit {
     return this.options.filter(option => new RegExp(`^${val}`, 'gi').test(option));
   }
 
-  // Start of a generic validator
+  // Start of a generic validator. we can move this to a service for any reactiveForm we use
   onValueChanged(data: any): void {
     for (const field in this.formError) {
       if (this.formError.hasOwnProperty(field)) {
@@ -141,6 +155,7 @@ export class HeroesComponent implements OnInit {
         if (hasError) {
           for (const key in this.heroForm.controls[field].errors) {
             if (this.heroForm.controls[field].errors.hasOwnProperty(key)) {
+              // if error occurs, setting the correct validation msg into that field.
               this.formError[field] += this.validationMessages[field][key] + ' ';
             }
           }
@@ -151,18 +166,26 @@ export class HeroesComponent implements OnInit {
   onSelect(hero: any) {
     this.selectedHero = hero;
   }
-  /*
-    getHeroes() {
-      this.heroService.getHeroes()
-        .subscribe(
+
+/*
+  getHeroes() {
+    this.heroService.getHeroes()
+      .subscribe(
         heroes => this.heroes = heroes,
         error => this.errorMessage = <any>error);
-    }
-  */
+  }
+*/
+
   gotoDetail(): void {
     this.router.navigate(['/heroes/', this.selectedHero._id]);
   }
-
+  /*
+  getProd(id: string): IHero{
+    this.heroService.getHero(id).subscribe(
+      prod=> 
+    )
+  }
+  */
   add(hero: IHero): void {
     // name = name.trim();
     if (!hero) { return; }
@@ -191,7 +214,7 @@ export class HeroesComponent implements OnInit {
   }
 
   delete(hero: IHero) {
-    this.heroService.delete(hero._id)
+    this.heroService.delete(hero)
       .subscribe((status: boolean) => {
         if (status) {
           this.router.navigateByUrl('/heroes/list');
