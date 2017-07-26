@@ -30,6 +30,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 1. logon mean server to launch mongo:
     cd \bin
     sudo mongod
-2. set NODE_ENV=development
-3. npm run build
-4. http://localhost:3000
+2. cd to mean-app folder
+3. open 2 terminals in vs code
+    run set NODE_ENV=development and nodemon server.ts in one terminal
+    run node build -w in another terminal.
+4. go to http://localhost:3000 in browser
