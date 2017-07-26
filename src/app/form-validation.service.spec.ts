@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { FormValidateService } from './form-validate.service';
+import { FormValidationService } from './form-validation.service';
 
 describe('FormValidateService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [FormValidateService]
+      providers: [FormValidationService]
     });
   });
 
-  it('should ...', inject([FormValidateService], (service: FormValidateService) => {
+  it('should ...', inject([FormValidationService], (service: FormValidationService) => {
     expect(service).toBeTruthy();
   }));
 });

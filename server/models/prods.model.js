@@ -1,9 +1,6 @@
 var mongoose = require('mongoose');
 
-var prodSchema = new mongoose.Schema({
-	id: {
-		type: Number,
-	},
+var prodSchema = new mongoose.Schema({	
 	name: {
 		type: String,
 		required: true,

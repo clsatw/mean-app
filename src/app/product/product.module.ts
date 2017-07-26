@@ -11,6 +11,8 @@ import { HeroesComponent } from './heroes.component';
 import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 import { HeroService } from './hero.service';
 import { SearchService } from './../search.service';
+import { ProdNewComponent } from "app/product/prod-new/prod-new.component";
+import { ProdListComponent } from "app/product/prod-list/prod-list.component";
 
 /*
 const routes: Routes = [
@@ -40,6 +42,8 @@ const routes: Routes = [
     // a component has to be declared in a module and only once.
     HeroesComponent,
     HeroDetailComponent,
+    ProdNewComponent,
+    ProdListComponent
   ],
 
   /* why it is no longer export HeroesComponent?

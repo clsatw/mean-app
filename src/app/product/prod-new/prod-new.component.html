@@ -1,3 +1,48 @@
 <p>
   prod-new works!
 </p>
+
+<!-- reactive form - editing -->
+<form [formGroup]="heroForm" (ngSubmit)='onSubmit()' novalidate>
+  <fieldset>   
+    <div class="form-group" [ngClass]="{'has-error': formError.name }">
+      <label>Name:</label>
+      <md-input-container>
+        <input type='text' mdInput formControlName="name">
+      </md-input-container>
+      <span class='help-block' *ngIf='formError.name'>{{formError.name}}</span>
+    </div>
+    <!--  
+        <span class='errors' *ngIf="heroForm.get('name').invalid && heroForm.get('name').touched">
+      <span *ngIf="heroForm.get('name').hasError('required')"> {{titleAlert}}</span>
+        <span *ngIf="heroForm.get('name').hasError('minlength')">Min 3 chars</span>
+        <span *ngIf="heroForm.get('name').hasError('notmatch')"> {{name.errors.nomatch.expected}}</span>
+        </span>
+      -->
+
+    <div class="form-group" [ngClass]="{'has-error': formError.price }">
+      <label>Price:</label>
+      <md-input-container>
+        <input type='text' mdInput formControlName="price">
+      </md-input-container>
+      <span class='help-block' *ngIf='formError.price'>{{formError.price}}</span>
+    </div>
+
+    <div class="form-group" [ngClass]="{'has-error': formError.type }">
+      <label>Type:</label>
+      <md-input-container>
+        <input type='text' mdInput formControlName="type">
+      </md-input-container>
+      <span class='help-block' *ngIf='formError.type'>{{formError.type}}</span>
+    </div>
+
+    <button md-raised-button type="submit" [disabled]="heroForm.pristine">Save</button>
+
+  </fieldset>
+</form>
+
+<p>Form value: {{ heroForm.value | json }}</p>
+<p>Form status: {{ heroForm.status | json }}</p>
+
+<p>name err: {{ heroForm.get('name').errors | json}}</p>
+<p>price err: {{ heroForm.get('price').errors | json}}</p>

@@ -16,6 +16,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// Morgan (logger)
+const morgan = require('morgan');
+app.use(morgan('dev'));
+
 mongoose.connect(config.db, {
   safe: true
 }, function (err) {
@@ -35,11 +39,10 @@ app.use('/api', api);
 
 
 // Catch all other routes and return the index file
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/index.html'));
-  // res.sendFile(path.join(__dirname, 'index.html'));
+app.all('*', (req, res, next) => {
+  //res.sendFile(path.join(__dirname, 'dist/index.html'));
+  res.sendFile(path.resolve(__dirname, 'dist/index.html'));
 });
-
 
 /**
  * Get port from environment and store in Express.
