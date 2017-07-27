@@ -23,9 +23,7 @@ export class HeroesComponent implements OnInit {
   filteredOptions: Observable<string[]>;
 
   errorMessage: string;
-  titleAlert = 'This field is required';
   heroes: Array<any> = [];
-
   selectedHero: IHero;
 
   constructor(
@@ -37,11 +35,10 @@ export class HeroesComponent implements OnInit {
     this.options = ['books', 'Clothing', 'Electronics', 'Food'];
   }
 
-
   // get price() { return this.heroForm.get('price'); }
 
-
   ngOnInit() {
+     this.getHeroes();
     /* create mock data, To remove the collection: db.prods.drop
     let mockData: IHero[];
     mockData = gg.createRandomCatalog(6);
@@ -58,18 +55,27 @@ export class HeroesComponent implements OnInit {
       }
     )
     */
-
-    this.filteredOptions = this.searchInput.valueChanges
-      // .startWith(null)
-      .map(val => val ? this.filter(val) : this.options.slice());
-
+    /*
+      filter(val: string): string[] {
+        return this.options.filter(option => new RegExp(`^${val}`, 'gi').test(option));
+      }
+    
+        this.filteredOptions = this.searchInput.valueChanges
+          // .startWith(null)
+          .map(val => val ? this.filter(val) : this.options.slice());
+    */
     this.searchInput.valueChanges
       // .filter(val => !!val)
       .debounceTime(500)
       .distinctUntilChanged()
-      .switchMap((val: string) => this.heroService.getHeroes(val, 0))
+      .switchMap((val: string) => // this.heroService.getHeroes(val, 0).filter(x => x.type === type && x.price > 0))        
+      {
+        // to filter array of objects
+        return this.heroService.getHeroes()
+          .map(prods => prods.filter((obj) => obj.type === val))
+      })
       .subscribe(heroes => {
-        // console.log('next: ', heroes);
+        console.log('next: ', heroes);
         this.heroes = heroes
       },
       error => this.errorMessage = <any>error,
@@ -79,23 +85,17 @@ export class HeroesComponent implements OnInit {
     // this.getHeroes();
   }
 
-  filter(val: string): string[] {
-    return this.options.filter(option => new RegExp(`^${val}`, 'gi').test(option));
-  }
-
-
   onSelect(hero: any) {
     this.selectedHero = hero;
   }
 
-  /*
-    getHeroes() {
-      this.heroService.getHeroes()
-        .subscribe(
-          heroes => this.heroes = heroes,
-          error => this.errorMessage = <any>error);
-    }
-  */
+
+  getHeroes() {
+    this.heroService.getHeroes()
+      .subscribe(
+      heroes => this.heroes = heroes,
+      error => this.errorMessage = <any>error);
+  }
 
   gotoDetail(): void {
     this.router.navigate(['/heroes/', this.selectedHero._id]);
@@ -107,7 +107,6 @@ export class HeroesComponent implements OnInit {
     )
   }
   */
-
 
   update(hero: IHero) {
     this.heroService.update(hero)

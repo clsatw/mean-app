@@ -30,16 +30,14 @@
 </div>
 
 <div *ngIf="selectedHero">
+  <button md-raised-button (click)="gotoDetail()">View Details</button>
   <h2>
-    {{selectedHero.name | uppercase}} is my hero
+    {{selectedHero.name | uppercase}} is selected.
   </h2>
+</div>
 
-  
 <app-prod-new></app-prod-new>
 <!-- <label>Hero name:</label> <input #heroName /> -->
 <hr>
-
-<button md-raised-button (click)="gotoDetail()">View Details</button>
-</div>
 
 <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/filter';
+
 import 'rxjs/add/operator/do';
 // import 'rxjs/add/operator/startWith';
 
@@ -52,9 +52,10 @@ export class HeroService {
             }
     */
 
-    getHeroes(type: string, price = 0): Observable<IHero[]> {
-        return this.http.get(this.heroesUrl)            // chain map method to extract heroes from the response data            
-            .map((res: Response) => res.json().filter(x => x.type === type && x.price > 0))
+    getHeroes(): Observable<IHero[]> {
+        return this.http.get(this.heroesUrl)  // chain map method to extract heroes from the response data            
+            // .map((res: Response) => res.json().filter(x => x.type === type && x.price > 0))
+            .map((res: Response) => res.json())
             // .startWith(this.cachedData)
             .catch(this.handleError);
     }
