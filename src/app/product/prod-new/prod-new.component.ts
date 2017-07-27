@@ -18,7 +18,7 @@ export class ProdNewComponent implements OnInit {
   formError: { [id: string]: string };
   private validationMessages: { [id: string]: { [id: string]: string } };
   @Output() createNewProdEvent = new EventEmitter();
-  
+
   constructor(private _fb: FormBuilder, private FormValidationService: FormValidationService, private heroService: HeroService) { };
   ngOnInit() {
     // current validator error msg
@@ -71,20 +71,10 @@ export class ProdNewComponent implements OnInit {
   }
 
   add(hero: IHero): void {
+    // pass hero to parent componemt - i.e., heroes.component
     this.createNewProdEvent.emit(hero);
-    // name = name.trim();
-    if (!hero) { return; }
-    this.heroService.add(hero)
-      .subscribe((data: IHero) => {
-        if (data) {
-          // this.selectedHero = null
-          // this.router.navigateByUrl('/heroes/list');
-        } else {
-          this.errorMessage = 'Unable to save customer';
-        }
-      },
-      error => this.errorMessage = <any>error);
   }
+  
   onSubmit() {
     this.add(this.heroForm.value);
     this.heroForm.reset();

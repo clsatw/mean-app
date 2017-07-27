@@ -1,5 +1,5 @@
 export interface IHero {
-  _id: any;
+  _id: string;
   // id: number;
   // __v: number;
   imgUrl: string;

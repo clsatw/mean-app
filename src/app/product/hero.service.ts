@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
-
+import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/do';
 // import 'rxjs/add/operator/startWith';
 
@@ -86,13 +86,14 @@ export class HeroService {
     }
 
     delete(hero: IHero): Observable<boolean> {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        const options = new RequestOptions({ headers: headers });
+        // const headers = new Headers({ 'Content-Type': 'application/json' });
+        // const options = new RequestOptions({ headers: headers });
 
         const url = `${this.heroesUrl}/${hero._id}`;
-        return this.http.delete(url, options)
+        return this.http.delete(url)
             // boolean
-            .map((res: Response) => res.ok)
+            // .do(res=>console.log('del: ', res))
+            .map((res: Response) => res.json())
             .catch(this.handleError);
     }
 

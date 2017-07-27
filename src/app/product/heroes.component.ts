@@ -32,13 +32,13 @@ export class HeroesComponent implements OnInit {
     private heroService: HeroService) {
     //this.searchInput = new FormControl('');
     // Initialize strings
-    this.options = ['books', 'Clothing', 'Electronics', 'Food'];
+    this.options = ['Book', 'car', 'clothing', 'Electronics', 'Food'];
   }
 
   // get price() { return this.heroForm.get('price'); }
 
   ngOnInit() {
-     this.getHeroes();
+    this.getHeroes();
     /* create mock data, To remove the collection: db.prods.drop
     let mockData: IHero[];
     mockData = gg.createRandomCatalog(6);
@@ -68,11 +68,16 @@ export class HeroesComponent implements OnInit {
       // .filter(val => !!val)
       .debounceTime(500)
       .distinctUntilChanged()
-      .switchMap((val: string) => // this.heroService.getHeroes(val, 0).filter(x => x.type === type && x.price > 0))        
-      {
+      .switchMap((searchTerm: string) => {
         // to filter array of objects
         return this.heroService.getHeroes()
-          .map(prods => prods.filter((obj) => obj.type === val))
+          .map(prods => prods.filter((obj) => {
+            if (this.options.indexOf(searchTerm) >= 0) {
+              return obj.type === searchTerm;
+            } else {
+              return obj;
+            }
+          }))
       })
       .subscribe(heroes => {
         console.log('next: ', heroes);
@@ -89,7 +94,6 @@ export class HeroesComponent implements OnInit {
     this.selectedHero = hero;
   }
 
-
   getHeroes() {
     this.heroService.getHeroes()
       .subscribe(
@@ -100,19 +104,29 @@ export class HeroesComponent implements OnInit {
   gotoDetail(): void {
     this.router.navigate(['/heroes/', this.selectedHero._id]);
   }
-  /*
-  getProd(id: string): IHero{
-    this.heroService.getHero(id).subscribe(
-      prod=> 
-    )
+ 
+  add(hero: IHero): void {  
+    // name = name.trim();
+    if (!hero) { return; }
+    this.heroService.add(hero)
+      .subscribe((data: IHero) => {
+        if (data) {
+          // this.selectedHero = null
+          // this.router.navigateByUrl('/heroes/list');
+          this.getHeroes();
+        } else {
+          this.errorMessage = 'Unable to save customer';
+        }
+      },
+      error => this.errorMessage = <any>error);
   }
-  */
 
   update(hero: IHero) {
     this.heroService.update(hero)
       .subscribe((heor: any) => {
         if (hero) {
-          this.router.navigate(['/heroes']);
+          // this.router.navigate(['/heroes']);
+          this.getHeroes();
         } else {
           this.errorMessage = 'Unable to save customer';
         }
@@ -122,15 +136,15 @@ export class HeroesComponent implements OnInit {
 
   delete(hero: IHero) {
     this.heroService.delete(hero)
-      .subscribe((status: boolean) => {
-        if (status) {
-          this.router.navigateByUrl('/heroes/list');
-        } else {
-          this.errorMessage = 'Unable to delete customer';
-        }
+      .subscribe(() => {
+        //if (status) {
+          //console.log('del status: ', res);// this.router.navigateByUrl('/heroes/list');
+          this.getHeroes();
+        //} else {
+        //  this.errorMessage = 'Unable to delete customer';
+        //}
       },
       (err) => console.log(err));
-
 
     /*
    .then(() => {

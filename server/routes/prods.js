@@ -19,11 +19,14 @@ router.route('/hero')
   // get all the users when a method passed is GET
   .get(function (req, res) {
     console.log('get prod');
-    Prods.find(function (err, data) {
-      if (err)
-        res.send(500, err);
-      console.dir(data);
-      res.status(200).json(data);
+    Prods.find((err, data) => {
+      if (err){
+        return res.send(500, err);
+      //console.dir(data);
+      }
+      else {
+        return res.status(200).json(data);
+      }
     })
   })
   // create a prod when the method passed is POST
@@ -38,10 +41,11 @@ router.route('/hero')
       if (err) {
         console.log(err);
         return res.send(500, err);
+      } else {
+        // give some success message
+        // console.log(data);
+        res.status(201).json(data);
       }
-      // give some success message
-      console.log(data);
-      res.status(201).json(data);
     })
   });
 
@@ -53,29 +57,28 @@ router.route('/hero/:id')
     Prods.findById(req.params.id, function (err, data) {
       if (err) {
         return res.sendstatus(500).send(err);
+      } else {
+        //console.dir(data);
+        res.status(200).json(data);
       }
-      console.dir(data);
-      res.status(200).json(data);
     })
   })
   // update the user by id
   .put(function (req, res) {
     Prods.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
       console.log(req.body);
-      if (err) res.send(500, err);
-      res.status(200).json(post);
+      if (err) return res.send(500, err);
+      else return res.status(200).json(post);
     });
   })
   .delete(function (req, res) {
     console.log(req.params.id);
-    Prods.remove({
-      _id: req.params.id
-    }, function (err, data) {
-      if (err)
-        res.send(500, err);
-      // give some success message
-      //res.sendStatus(200);
-      res.status(200);
+    Prods.deleteOne({ _id: req.params.id }, (err, data) => {
+      if (err) return res.send(500, err);
+      else
+        // give some success message
+        //res.sendStatus(200);
+        return res.json(true);
     })
   });
 // exports the router as a Node module
