@@ -46,3 +46,5 @@
 
 <p>name err: {{ heroForm.get('name').errors | json}}</p>
 <p>price err: {{ heroForm.get('price').errors | json}}</p>
+
+<p class="error" *ngIf="errorMessage">{{errorMessage}}</p>

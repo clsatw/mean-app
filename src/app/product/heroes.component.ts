@@ -1,14 +1,9 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+// import { Router, ActivatedRoute } from '@angular/router';
 
 import { IHero } from './hero';
 import { HeroService } from './hero.service';
 import * as gg from './mock-data';
-
-import { filter } from "rxjs/operator/filter";
-import 'rxjs/add/operator/distinctUntilChanged';
-import { Observable } from "rxjs/Observable";
-import { FormControl } from "@angular/forms";
 
 // tslint:disable-next-line:quotemark
 
@@ -18,21 +13,21 @@ import { FormControl } from "@angular/forms";
   styleUrls: ['./heroes.component.css']
 })
 export class HeroesComponent implements OnInit {
-  searchInput = new FormControl();
-  options: string[];
-  filteredOptions: Observable<string[]>;
+
+  //options: string[];
+  
 
   errorMessage: string;
   heroes: Array<any> = [];
-  selectedHero: IHero;
+  // selectedHero: IHero;
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
+    // private router: Router,
+    // private route: ActivatedRoute,
     private heroService: HeroService) {
     //this.searchInput = new FormControl('');
     // Initialize strings
-    this.options = ['Book', 'car', 'clothing', 'Electronics', 'Food'];
+    
   }
 
   // get price() { return this.heroForm.get('price'); }
@@ -64,45 +59,17 @@ export class HeroesComponent implements OnInit {
           // .startWith(null)
           .map(val => val ? this.filter(val) : this.options.slice());
     */
-    this.searchInput.valueChanges
-      // .filter(val => !!val)
-      .debounceTime(500)
-      .distinctUntilChanged()
-      .switchMap((searchTerm: string) => {
-        // to filter array of objects
-        return this.heroService.getHeroes()
-          .map(prods => prods.filter((obj) => {
-            if (this.options.indexOf(searchTerm) >= 0) {
-              return obj.type === searchTerm;
-            } else {
-              return obj;
-            }
-          }))
-      })
-      .subscribe(heroes => {
-        console.log('next: ', heroes);
-        this.heroes = heroes
-      },
-      error => this.errorMessage = <any>error,
-      () => console.log('Stream is over')
-      );
+   
 
     // this.getHeroes();
   }
 
-  onSelect(hero: any) {
-    this.selectedHero = hero;
-  }
 
   getHeroes() {
     this.heroService.getHeroes()
       .subscribe(
       heroes => this.heroes = heroes,
       error => this.errorMessage = <any>error);
-  }
-
-  gotoDetail(): void {
-    this.router.navigate(['/heroes/', this.selectedHero._id]);
   }
  
   add(hero: IHero): void {  

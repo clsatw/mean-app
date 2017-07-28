@@ -8,33 +8,8 @@
     </li>
   </ul>
 -->
-<md-input-container>
-  <input mdInput placeholder='Enter type' [formControl]='searchInput' [mdAutocomplete]='auto'>
-</md-input-container>
-<md-autocomplete #auto='mdAutocomplete'>
-  <md-option *ngFor="let option of filteredOptions | async" [value]="option">
-    {{ option }}
-  </md-option>
-</md-autocomplete>
 
-<div *ngIf='heroes'>
-  <md-list>
-    <md-list-item *ngFor="let hero of heroes" (click)='onSelect(hero)' [class.selected]='hero === selectedHero'>
-      <img md-list-avatar src='{{hero.imgUrl}}' />
-      <p md-line> <span>{{hero.id}}</span> {{hero.type}} {{hero.name}} {{hero.price}}</p>
-      <button md-fab class="delete" (click)="delete(hero); $event.stopPropagation()">
-        <md-icon>delete_forever</md-icon>
-      </button>
-    </md-list-item>
-  </md-list>
-</div>
-
-<div *ngIf="selectedHero">
-  <button md-raised-button (click)="gotoDetail()">View Details</button>
-  <h2>
-    {{selectedHero.name | uppercase}} is selected.
-  </h2>
-</div>
+<app-prod-list [heroes]="heroes" (deleteProdEvent)="delete($event)"></app-prod-list>
 
 <app-prod-new (createNewProdEvent)="add($event)"></app-prod-new>
 <!-- <label>Hero name:</label> <input #heroName /> -->
