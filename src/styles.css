@@ -5,6 +5,7 @@
 @import "https://fonts.googleapis.com/css?family=Roboto:400,300";
 
 html, body {
+  background: lightgray;
   display: flex;
   flex-direction: column;
 

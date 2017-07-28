@@ -49,19 +49,8 @@ export class HeroesComponent implements OnInit {
         this.gotoProd(id);
       }
     )
-    */
-    /*
-      filter(val: string): string[] {
-        return this.options.filter(option => new RegExp(`^${val}`, 'gi').test(option));
-      }
-    
-        this.filteredOptions = this.searchInput.valueChanges
-          // .startWith(null)
-          .map(val => val ? this.filter(val) : this.options.slice());
-    */
-   
-
-    // this.getHeroes();
+    */ 
+  
   }
 
 

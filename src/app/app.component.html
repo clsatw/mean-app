@@ -1,9 +1,20 @@
 <div fxLayout="column" fxFlex [class.dark-theme]="isDarkTheme">
 
 <md-toolbar color='primary'>
-    <md-icon md-svg-src="url-of-icon" aria-label="label" class="snumber"></md-icon>
+    <span>Roach Inc.</span>
+    <span class='example-spaer'></span>
+    <button md-button [mdMenuTriggerFor]='appMenu'>
+    <md-icon md-svg-src="url-of-icon" aria-label="label" class="snumber">menu</md-icon> Menu</button>    
     <span>{{title}}</span>
 </md-toolbar>
+
+<md-menu #appMenu='mdMenu'>
+  <button md-menu-item> Logon</button>
+  <button md-menu-item> Post</button>
+  <button md-menu-item> Heroes</button>
+  <button md-menu-item> Dashboard</button>
+  <button md-menu-item> Admin</button>
+</md-menu>
 
 <nav md-tab-nav-bar>
   <a md-tab-link mdTooltip='Please logon!'

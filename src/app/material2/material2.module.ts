@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 // import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 // import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-// import { MaterialModule } from '@angular/material';
-import { MdOption, MdButtonModule, MdToolbarModule, MdIconModule, MdMenuModule, MdCardModule } from '@angular/material';
+import { MaterialModule } from '@angular/material';
+// import { MdOption, MdButtonModule, MdToolbarModule, MdIconModule, MdMenuModule, MdCardModule } from '@angular/material';
 
 // Gesture support
 import 'hammerjs';
@@ -12,7 +12,7 @@ import 'hammerjs';
 
 @NgModule({
   // imports: [MdButtonModule, MdToolbarModule, MdMenuModule, MdCardModule, FlexLayoutModule],
-  exports: [MdIconModule, MdButtonModule, MdToolbarModule, MdMenuModule, MdCardModule, FlexLayoutModule]
-  // exports: [ MaterialModule, FlexLayoutModule ]
+  // exports: [MdIconModule, MdButtonModule, MdToolbarModule, MdMenuModule, MdCardModule, FlexLayoutModule]
+  exports: [ MaterialModule, FlexLayoutModule ]
 })
 export class Material2Module { }

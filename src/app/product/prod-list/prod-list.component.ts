@@ -24,7 +24,15 @@ export class ProdListComponent implements OnInit {
   constructor(private heroService: HeroService, private router: Router,
     private route: ActivatedRoute, ) { }
 
+  filter(val: string): string[] {
+    return this.options.filter(option => new RegExp(`^${val}`, 'gi').test(option));
+  }
+  
   ngOnInit() {
+    this.filteredOptions = this.searchInput.valueChanges
+      // .startWith(null)
+      .map(val => val ? this.filter(val) : this.options.slice());
+
     this.searchInput.valueChanges
       // .filter(val => !!val)
       .debounceTime(500)
