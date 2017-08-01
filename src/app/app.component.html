@@ -1,33 +1,47 @@
-<div fxLayout="column" fxFlex [class.dark-theme]="isDarkTheme">
+<!-- <div fxLayout="column" fxFlex [class.dark-theme]="isDarkTheme"> -->
 
-<md-toolbar color='primary'>
+<div fxLayout="column">
+
+  <md-toolbar color='primary'>
     <span>Roach Inc.</span>
-    <span class='example-spaer'></span>
+    <span class='example-spacer'></span>
     <button md-button [mdMenuTriggerFor]='appMenu'>
-    <md-icon md-svg-src="url-of-icon" aria-label="label" class="snumber">menu</md-icon> Menu</button>    
-    <span>{{title}}</span>
-</md-toolbar>
+        <md-icon md-svg-src="url-of-icon" class="snumber">menu</md-icon> Menu</button>
+  </md-toolbar>
+  <md-menu #appMenu='mdMenu'>
+    <button md-menu-item>
+      <md-icon>fingerprint</md-icon> 
+      <span>Logon</span>
+    </button>
+    <button md-menu-item>
+      <md-icon>class</md-icon>
+      <span>Post</span>
+    </button>
+    <button md-menu-item>
+      <md-icon>list</md-icon> 
+       <span>Heroes</span>
+      </button>
+    <button md-menu-item>
+      <md-icon>dashboard</md-icon> 
+      <span>Dashboard</span>
+    </button>
+    <button md-menu-item>
+      <md-icon>settings</md-icon> 
+      <span> Admin</span>
+      </button>
+  </md-menu>
 
-<md-menu #appMenu='mdMenu'>
-  <button md-menu-item> Logon</button>
-  <button md-menu-item> Post</button>
-  <button md-menu-item> Heroes</button>
-  <button md-menu-item> Dashboard</button>
-  <button md-menu-item> Admin</button>
-</md-menu>
+  <nav md-tab-nav-bar>
+    <a md-tab-link mdTooltip='Please logon!' *ngFor="let link of navLinks" [routerLink]="link" routerLinkActive #rla="routerLinkActive"
+      [active]="rla.isActive">
+      <md-icon>home</md-icon>{{link | uppercase}}
+    </a>
+  </nav>
 
-<nav md-tab-nav-bar>
-  <a md-tab-link mdTooltip='Please logon!'
-     *ngFor="let link of navLinks"
-     [routerLink]="link"
-     routerLinkActive #rla="routerLinkActive"
-     [active]="rla.isActive">
-    <md-icon>home</md-icon>{{link | uppercase}}
-    
-  </a>
-</nav>
+  <router-outlet></router-outlet>
 
-<router-outlet></router-outlet>
+  <footer>footer</footer>
+
 </div>
 
 

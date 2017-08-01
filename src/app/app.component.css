@@ -1,4 +1,6 @@
-
+.example-spacer{
+  flex: 1 1 auto;
+}
 h1 {
   font-size: 1.2em;
   color: #999;

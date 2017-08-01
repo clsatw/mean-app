@@ -27,11 +27,18 @@ Before running the tests make sure you are serving the app via `ng serve`.
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
+full stack app w/ the following technics applied:
+    lazy loading
+    authorization
+    reactive form and validation
+    rxjs
+    material
+
 1. logon mean server to launch mongo:
     cd \bin
     sudo mongod
 2. cd to mean-app folder
 3. open 2 terminals in vs code
     run set NODE_ENV=development and nodemon server.ts in one terminal
-    run node build -w in another terminal.
+    run ng build -w in another terminal.
 4. go to http://localhost:3000 in browser

@@ -1,5 +1,5 @@
 module.exports = {
-	db: 'mongodb://ajoan.com5/quickstart',
+	db: 'mongodb://ajoan.com/quickstart',
 	sessionSecret: 'immortal roach',
 	payapl_api_user: 'roach.huang_api1.hotmail.com',
 	paypay_api_pwd: 'PNEEJR889CPHPDNK',

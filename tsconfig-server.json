@@ -1,10 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "allowJs": true,
-    "module": "commonjs",
-    "outDir": "./dist",
-    "baseUrl": "src",
+    "module": "commonjs",  
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
@@ -20,14 +17,10 @@
     ]
   },
   "include": [
-    "server/**/*.ts",
-    "src/**/*.ts"
+    "server/**/*.ts"
   ],
   "exclude": [
-    "node_modules",
-    ".vscode",
-    "src/**/*.spec.ts",
-    "src/*.spec.ts",
+    "node_modules",   
     "wwwroot"
   ]
 }
