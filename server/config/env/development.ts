@@ -1,5 +1,5 @@
 // The proper way to store app var is to use your env config file.
-module.exports = {
+export default {
 	db: 'mongodb://ajoan.com/quickstar',
 	sessionSecret: 'immortal roach',
 	payapl_api_user: 'sdk-three_api1.sdk.com',

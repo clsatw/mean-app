@@ -14,7 +14,7 @@ import { IHero } from './hero';
 
 @Injectable()
 export class HeroService {
-    private heroesUrl = 'http://localhost:3000/prods/hero';
+    private heroesUrl = 'http://localhost:3000/api/prods/hero';
     cachedData: IHero[];
     constructor(private http: Http) { }
 

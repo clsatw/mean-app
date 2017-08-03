@@ -38,7 +38,12 @@ full stack app w/ the following technics applied:
     cd \bin
     sudo mongod
 2. cd to mean-app folder
+    for Nodejs:
+        npm i @types/node -D
+        npm i @types/express -D
+        npm i @types/mongoose -D
+
 3. open 2 terminals in vs code
-    run set NODE_ENV=development and nodemon server.ts in one terminal
-    run ng build -w in another terminal.
-4. go to http://localhost:3000 in browser
+    run nodemon -w server/**/*.ts --exec ts-node server/server.ts --secure in one terminal
+    and npm run start in another terminal.
+4. go to http://localhost:4200 in browser
