@@ -38,7 +38,7 @@ full stack app w/ the following technics applied:
     cd \bin
     sudo mongod
 2. cd to mean-app folder
-    for Nodejs:
+    Install Node.js declaration files:    
         npm i @types/node -D
         npm i @types/express -D
         npm i @types/mongoose -D
@@ -47,3 +47,13 @@ full stack app w/ the following technics applied:
     run nodemon -w server/**/*.ts --exec ts-node server/server.ts --secure in one terminal
     and npm run start in another terminal.
 4. go to http://localhost:4200 in browser
+
+debug angular in vsc
+    1. npm run start1
+    2. go to the debug view, choose the "launch chrome with ng serve" configuration, then hit F5
+    3. the app will be shown in a browser, but in order to hit the breakpoint you'll need to       refresh the browser.
+
+debug node & angular in vsc
+    1. npm run start1 
+    2. tsc -w in another terminal window (watch out for tsconfig.json and )
+    3. f5 and choose Compound.    

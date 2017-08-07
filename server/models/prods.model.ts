@@ -8,13 +8,6 @@ const prodSchema: Schema = new Schema({
 		unique: false,
 		default: ''
 	},
-	slug: {
-		type: String,
-		default: '',
-		required: true,
-		unique: true,
-		lowercase: true
-	},
 	type: {
 		type: String,
 		required: true,

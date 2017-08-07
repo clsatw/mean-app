@@ -39,7 +39,7 @@ class Server {
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: false }));
     this.app.use(morgan('dev'));
-    this.app.use(express.static(path.join(__dirname, 'dist')));
+    this.app.use(express.static(path.join(__dirname, 'server')));
     this.app.use(compression());
     this.app.use(cors());    
   }
@@ -61,8 +61,9 @@ const port = process.env.PORT || '3000';
 let app = new Server().app;
 // Catch all other routes and return the index file
 app.all('*', (req, res, next) => {
-  //res.sendFile(path.join(__dirname, 'dist/index.html'));
-  res.sendFile(path.resolve(__dirname, 'dist/index.html'));
+  // res.sendFile(path.join(__dirname, './src/index.html'));
+  console.log('dir :',  path.resolve(__dirname));
+  res.sendFile(path.resolve(__dirname, '../../src/index.html'));
 });
 
 app.set('port', port);

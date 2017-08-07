@@ -83,7 +83,7 @@ router.route('/hero/:id')
   })
   .delete((req: Request, res: Response)=> {
     // const slug: string = req.params.slug;
-    console.log(req.params.slug);
+    // console.log(req.params.slug);
     Prods.findOneAndRemove({ _id: req.params.id }, (err, data)=>{
     // Prods.deleteOne({ _id: req.params.id }, (err, data) => {
       if (err) return res.sendStatus(500).send(err);

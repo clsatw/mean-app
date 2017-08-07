@@ -15,7 +15,7 @@
 
 <div *ngIf='heroes'>
 
-  <md-card *ngFor="let hero of heroes" (click)='onSelect(hero)' [class.selected]='hero === selectedHero'>
+  <md-card *ngFor="let hero of heroes" (click)='onSelect(hero)' [class.selected]='hero === selectedHero' let i = index>
     <md-card-header>
       <md-card-title>{{hero._id}}</md-card-title>
       <md-card-subtitle>{{hero.type}}</md-card-subtitle>
