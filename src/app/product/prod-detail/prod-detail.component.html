@@ -44,10 +44,10 @@
       <md-input-container>
         <input mdInput [(ngModel)]="hero.name" />
       </md-input-container>
-      <button md-button (click)="save()">Save</button>
+      <button md-button color='accent' (click)="save()">Save</button>
     </md-card-actions>
   </md-card>
 </div>
 
-<button md-button (click)="goBack()"><i class='material-icons'>keyboard_backspace</i></button>
+<button md-button color='warn' (click)="goBack()"><i class='material-icons'>keyboard_backspace</i></button>
 <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>

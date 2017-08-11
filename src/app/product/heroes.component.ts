@@ -1,8 +1,16 @@
+/* put presentation logic in the component class, and not in the template
+** The component's responsibility is for the presentation and gathering of information for
+** the view. It should not care how it gets the data, just that it knows who to ask for it.
+** Separating the data services moves the logic on how to get it to the data service, 
+** and lets the component be simpler and more focused on the view.
+*/
+
 import { Component, OnInit, OnChanges } from '@angular/core';
+
 // import { Router, ActivatedRoute } from '@angular/router';
 
-import { IHero } from './hero';
-import { HeroService } from './hero.service';
+import { Hero } from './hero.model';
+import { ProdService } from './prod.service';
 import * as gg from './mock-data';
 
 // tslint:disable-next-line:quotemark
@@ -18,13 +26,13 @@ export class HeroesComponent implements OnInit {
   
 
   errorMessage: string;
-  heroes: Array<any> = [];
+  heroes: Array<Hero> = [];
   // selectedHero: IHero;
 
   constructor(
     // private router: Router,
     // private route: ActivatedRoute,
-    private heroService: HeroService) {
+    private heroService: ProdService) {
     //this.searchInput = new FormControl('');
     // Initialize strings
     
@@ -53,7 +61,6 @@ export class HeroesComponent implements OnInit {
   
   }
 
-
   getHeroes() {
     this.heroService.getHeroes()
       .subscribe(
@@ -61,11 +68,11 @@ export class HeroesComponent implements OnInit {
       error => this.errorMessage = <any>error);
   }
  
-  add(hero: IHero): void {  
+  add(hero: Hero): void {  
     // name = name.trim();
     if (!hero) { return; }
     this.heroService.add(hero)
-      .subscribe((data: IHero) => {
+      .subscribe((data: Hero) => {
         if (data) {
           // this.selectedHero = null
           // this.router.navigateByUrl('/heroes/list');
@@ -77,7 +84,7 @@ export class HeroesComponent implements OnInit {
       error => this.errorMessage = <any>error);
   }
 
-  update(hero: IHero) {
+  update(hero: Hero) {
     this.heroService.update(hero)
       .subscribe((heor: any) => {
         if (hero) {
@@ -90,7 +97,7 @@ export class HeroesComponent implements OnInit {
       (err) => console.log(err));
   }
 
-  delete(hero: IHero) {
+  delete(hero: Hero) {
     this.heroService.delete(hero)
       .subscribe(() => {
         //if (status) {

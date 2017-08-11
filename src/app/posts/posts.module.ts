@@ -3,8 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { SharedModule } from '../shared/shared.module';
 import { PostsComponent } from './posts.component';
+
 // tslint:disable-next-line:quotemark
 import { Material2Module } from "app/material2/material2.module";
+import { PostsService } from "app/posts/posts.service";
 
 /*
 const routes: Routes = [
@@ -30,6 +32,6 @@ const routes: Routes = [
     ],
     declarations: [
         PostsComponent,
-    ]
+    ] 
 })
 export class PostsModule { }

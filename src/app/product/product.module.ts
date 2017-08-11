@@ -5,14 +5,18 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { SharedModule } from '../shared/shared.module';
+// import { ProdSharedModule} from './shared/prod-shared.module';
 import { Material2Module } from 'app/material2/material2.module';
 
 import { HeroesComponent } from './heroes.component';
-import { HeroDetailComponent } from './hero-detail/hero-detail.component';
-import { HeroService } from './hero.service';
+import { ProdService } from './prod.service';
+import { ProdButtonComponent } from "app/product/shared/prod-button/prod-button.comonent";
 import { SearchService } from './../search.service';
 import { ProdNewComponent } from "app/product/prod-new/prod-new.component";
 import { ProdListComponent } from "app/product/prod-list/prod-list.component";
+import { ProdDetailComponent } from './prod-detail/prod-detail.component';
+import { ProdHighlightDirective } from "app/product/shared/prod-button/prod-hightlight.directive";
+// import { StarComponent } from "app/shared/star.component";
 
 /*
 const routes: Routes = [
@@ -29,21 +33,24 @@ const routes: Routes = [
 const routes: Routes = [
   { path: '', redirectTo: 'list', pathMatch: 'full'},
   { path: 'list', component: HeroesComponent },
-  { path: ':id', component: HeroDetailComponent }
+  { path: ':id', component: ProdDetailComponent }
 ]
 
 @NgModule({
   imports: [
-    SharedModule,
-    Material2Module,
+    SharedModule,    
+    Material2Module,  
     RouterModule.forChild(routes)
   ],
   declarations: [
     // a component has to be declared in a module and only once.
+    ProdHighlightDirective,
+    ProdButtonComponent,
     HeroesComponent,
-    HeroDetailComponent,
+    ProdDetailComponent,
     ProdNewComponent,
     ProdListComponent
+    // StarComponent
   ],
 
   /* why it is no longer export HeroesComponent?
@@ -52,6 +59,6 @@ const routes: Routes = [
   ** a selector. No template will ever again reference this ContactComponent.
   */
   // application wide
-  providers: [HeroService, SearchService]
+  providers: [ProdService, SearchService]
 })
 export class ProductModule { }

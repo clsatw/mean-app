@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PostsService } from '../core/posts.service';
+import { PostsService } from './posts.service';
 
 @Component({
   selector: 'app-posts',
@@ -14,9 +14,7 @@ export class PostsComponent implements OnInit {
 
   ngOnInit() {
     // Retrieve posts from the API
-    this.postsService.getAllPosts().subscribe(posts => {
-      this.posts = posts;
-      // alert(this.posts);
-    });
+    // let "| async" to subscribe for us
+    this.posts =  this.postsService.getAllPosts();    
   }
 }

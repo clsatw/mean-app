@@ -1,3 +1,5 @@
+// Do create a new service once the service begins to exceed that singular purpose.
+
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
@@ -9,13 +11,13 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/do';
 // import 'rxjs/add/operator/startWith';
 
-import { IHero } from './hero';
+import { Hero } from './hero.model';
 // import { Data } from './mock-data';
 
 @Injectable()
-export class HeroService {
+export class ProdService {
     private heroesUrl = 'http://localhost:3000/api/prods/hero';
-    cachedData: IHero[];
+    cachedData: Hero[];
     constructor(private http: Http) { }
 
     /*
@@ -33,11 +35,11 @@ export class HeroService {
     }
     */
     // Each Http service method returns an Observable of HTTP Response objects.
-    getHero(id: string): Observable<IHero> {
+    getHero(id: string): Observable<Hero> {
         const url = `${this.heroesUrl}/${id}`;
         return this.http.get(url)
             // .filter(hero => hero.id === id)
-            .map((res: Response) => <IHero>res.json())
+            .map((res: Response) => <Hero>res.json())
             .do(data => console.log(JSON.stringify(data)))
             .catch(this.handleError);
     }
@@ -52,7 +54,7 @@ export class HeroService {
             }
     */
 
-    getHeroes(): Observable<IHero[]> {
+    getHeroes(): Observable<Hero[]> {
         return this.http.get(this.heroesUrl)  // chain map method to extract heroes from the response data            
             // .map((res: Response) => res.json().filter(x => x.type === type && x.price > 0))
             .map((res: Response) => res.json())
@@ -60,7 +62,7 @@ export class HeroService {
             .catch(this.handleError);
     }
 
-    update(hero: IHero): Observable<any> {
+    update(hero: Hero): Observable<any> {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
 
@@ -75,7 +77,7 @@ export class HeroService {
             .catch(this.handleError);
     }
 
-    add(hero: IHero): Observable<IHero> {
+    add(hero: Hero): Observable<Hero> {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
         return this.http
@@ -85,7 +87,7 @@ export class HeroService {
             .catch(this.handleError);
     }
 
-    delete(hero: IHero): Observable<boolean> {
+    delete(hero: Hero): Observable<boolean> {
         // const headers = new Headers({ 'Content-Type': 'application/json' });
         // const options = new RequestOptions({ headers: headers });
 

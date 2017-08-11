@@ -57,3 +57,15 @@ debug node & angular in vsc
     1. npm run start1 
     2. tsc -w in another terminal window (watch out for tsconfig.json and )
     3. f5 and choose Compound.    
+    4. now you can set breakpoint in ./server/*.ts and src/**/*.ts files
+
+    DEVELOPMENT TIME:
+        use JIT (Just In Time) compilation to save time
+    PRODUCTION BUILD:
+        AOT (Ahead Of Time) compilation
+        tree shaking
+        dead code removable
+        ng build -prod
+        ///////////
+        in dist file
+            run source-map-explorer main.bundle.js   

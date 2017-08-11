@@ -3,21 +3,21 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 
-import {IHero} from '../hero';
-import { HeroService } from '../hero.service';
+import {Hero} from '../hero.model';
+import { ProdService } from '../prod.service';
 
 @Component({
   selector: 'app-hero-detail',
-  templateUrl: './hero-detail.component.html',
-  styleUrls: ['./hero-detail.component.css']
+  templateUrl: './prod-detail.component.html',
+  styleUrls: ['./prod-detail.component.css']
 })
 
-export class HeroDetailComponent implements OnInit {
+export class ProdDetailComponent implements OnInit {
   // @Input() hero: Hero.R;
   errorMessage: string;
-  hero: IHero;
+  hero: Hero;
   constructor(
-    private heroService: HeroService,
+    private heroService: ProdService,
     private route: ActivatedRoute,
     private location: Location
   ) { }

@@ -16,8 +16,8 @@
         </md-card-content>
 
         <md-card-actions layout='row' layout-align='end center'>
-            <button md-raised-button (click)="login()" *ngIf="!authService.isLoggedIn"><md-icon>lock</md-icon>Login</button>
-            <button md-button (click)="logout()" *ngIf="authService.isLoggedIn"><md-icon>lock_open</md-icon>Logout</button>
+            <button md-raised-button color='primary' (click)="login()" *ngIf="!authService.isLoggedIn"><md-icon>lock</md-icon>Login</button>
+            <button md-button color='warn' (click)="logout()" *ngIf="authService.isLoggedIn"><md-icon>lock_open</md-icon>Logout</button>
         </md-card-actions>
     </md-card>
 </div>

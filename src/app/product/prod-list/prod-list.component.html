@@ -15,19 +15,30 @@
 
 <div *ngIf='heroes'>
 
-  <md-card *ngFor="let hero of heroes" (click)='onSelect(hero)' [class.selected]='hero === selectedHero' let i = index>
+  <md-card *ngFor="let hero of heroes" (click)='onSelect(hero)' [class.selected]='hero === selectedHero' let i=i ndex>
     <md-card-header>
       <md-card-title>{{hero._id}}</md-card-title>
       <md-card-subtitle>{{hero.type}}</md-card-subtitle>
     </md-card-header>
     <img md-card-image src='{{hero.imgUrl}}' />
-    <md-card-content><h2>{{hero.name}}</h2></md-card-content>
+    <md-card-content>
+      <h2 prodHighlight='skyblue'>{{hero.name}}</h2>
+    </md-card-content>
     <md-card-actions>
-      <button md-fab class="delete" (click)="delete(hero); $event.stopPropagation()">
+      <!-- how to fire change evt?
+      <toh-hero-button [btnLabel]="'Delete'" (change)="onDelete(hero)"></toh-hero-button>
+      -->
+      <button md-fab color='warn' (click)="onDelete(hero); $event.stopPropagation()">
         <md-icon>delete_forever</md-icon>
-      </button>
+      </button>      
     </md-card-actions>
-    <md-card-footer>{{hero.price | currency}}</md-card-footer>
+    <!--
+    <md-card-actions>
+      <ai-star [rating]='hero.starRating' (ratingClicked)='onRatingClicked($event)'>
+      </ai-star>
+    </md-card-actions>
+    -->
+    <md-card-footer><h4 prodHighlight='gold'>{{hero.price | currency}}</h4></md-card-footer>
   </md-card>
 
 </div>
@@ -47,7 +58,7 @@
 -->
 
 <div *ngIf="selectedHero">
-  <button md-raised-button (click)="gotoDetail()">View Details</button>
+  <button md-raised-button color='primary' (click)="gotoDetail()">View Details</button>
   <h2>
     {{selectedHero.name | uppercase}} is selected.
   </h2>

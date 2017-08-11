@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 
 import { FormValidationService } from "app/form-validation.service";
 import { NumberValidators } from "app/shared/number.validator";
-import { HeroService } from "app/product/hero.service";
-import { IHero } from "app/product/hero";
+import { ProdService } from "../prod.service";
+import { Hero } from "app/product/hero.model";
 
 @Component({
   selector: 'app-prod-new',
@@ -19,7 +19,7 @@ export class ProdNewComponent implements OnInit {
   private validationMessages: { [id: string]: { [id: string]: string } };
   @Output() createNewProdEvent = new EventEmitter();
 
-  constructor(private _fb: FormBuilder, private FormValidationService: FormValidationService, private heroService: HeroService) { };
+  constructor(private _fb: FormBuilder, private FormValidationService: FormValidationService, private heroService: ProdService) { };
   ngOnInit() {
     // current validator error msg
     this.formError = {
@@ -70,7 +70,7 @@ export class ProdNewComponent implements OnInit {
       })
   }
 
-  add(hero: IHero): void {
+  add(hero: Hero): void {
     // pass hero to parent componemt - i.e., heroes.component
     this.createNewProdEvent.emit(hero);
   }

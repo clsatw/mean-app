@@ -1,12 +1,14 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl } from "@angular/forms";
-
-import { IHero } from "app/product/hero";
-import { HeroService } from "app/product/hero.service";
-import { filter } from "rxjs/operator/filter";
 import 'rxjs/add/operator/distinctUntilChanged';
+
+import { Hero } from "app/product/hero.model";
+
+import { filter } from "rxjs/operator/filter";
 import { Observable } from "rxjs/Observable";
+import { ProdService } from "app/product/prod.service";
+// import { ProdButtonComponent} from '../shared/prod-button/prod-button.component';
 
 @Component({
   selector: 'app-prod-list',
@@ -16,18 +18,20 @@ import { Observable } from "rxjs/Observable";
 export class ProdListComponent implements OnInit {
   @Input() heroes;
   @Output() deleteProdEvent = new EventEmitter();
+
+  pageTitle: string = 'Product List';
   errorMessage: string;
   options: Array<string> = ['Book', 'car', 'clothing', 'Electronics', 'Food'];
-  selectedHero: IHero;
+  selectedHero: Hero;
   filteredOptions: Observable<string[]>;
   searchInput = new FormControl();
-  constructor(private heroService: HeroService, private router: Router,
+  constructor(private prodService: ProdService, private router: Router,
     private route: ActivatedRoute, ) { }
 
   filter(val: string): string[] {
     return this.options.filter(option => new RegExp(`^${val}`, 'gi').test(option));
   }
-  
+
   ngOnInit() {
     this.filteredOptions = this.searchInput.valueChanges
       // .startWith(null)
@@ -39,7 +43,7 @@ export class ProdListComponent implements OnInit {
       .distinctUntilChanged()
       .switchMap((searchTerm: string) => {
         // to filter array of objects
-        return this.heroService.getHeroes()
+        return this.prodService.getHeroes()
           .map(prods => prods.filter((obj) => {
             if (this.options.indexOf(searchTerm) >= 0) {
               return obj.type === searchTerm;
@@ -56,8 +60,8 @@ export class ProdListComponent implements OnInit {
       () => console.log('Stream is over')
       );
   }
-  delete(hero: IHero): void {
-    // pass hero to parent componemt - i.e., heroes.component
+  onDelete(hero: Hero): void {
+    // fire deleteProdEvent and pass hero to parent componemt - i.e., heroes.component
     this.deleteProdEvent.emit(hero);
   }
 
@@ -65,6 +69,9 @@ export class ProdListComponent implements OnInit {
     this.router.navigate(['/heroes/', this.selectedHero._id]);
   }
 
+  onRatingClicked(message: string): void {
+    this.pageTitle = 'Product List: ' + message;
+  }
   onSelect(hero: any) {
     this.selectedHero = hero;
   }

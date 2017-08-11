@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 
 @Component({
+  // logonComponent is an Admin feature
+  selector: 'admin-logon',
   templateUrl: './logon.component.html',
     
 })

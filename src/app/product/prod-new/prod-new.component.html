@@ -36,15 +36,15 @@
       <span class='help-block' *ngIf='formError.type'>{{formError.type}}</span>
     </div>
 
-    <button md-raised-button type="submit" [disabled]="heroForm.pristine">Save</button>
+    <button md-raised-button color='primary' type="submit" [disabled]="heroForm.pristine">Save</button>
 
   </fieldset>
 </form>
-
+<!--
 <p>Form value: {{ heroForm.value | json }}</p>
 <p>Form status: {{ heroForm.status | json }}</p>
 
 <p>name err: {{ heroForm.get('name').errors | json}}</p>
 <p>price err: {{ heroForm.get('price').errors | json}}</p>
-
+-->
 <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
