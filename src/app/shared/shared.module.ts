@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 // formsModule is for 2-way binding
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { InitCapsPipe } from "app/shared/init-caps.pipe";
+import { ProdPriceRangePipe } from "app/shared/init-caps.pipe";
 // import { StarComponent } from "app/shared/star.component";
 // import { async } from 'rxjs/scheduler/async';
 
@@ -17,14 +17,14 @@ import { InitCapsPipe } from "app/shared/init-caps.pipe";
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    InitCapsPipe,
+    ProdPriceRangePipe,
     // HttpModule,
     // StarComponent
   ],
   // declar StarComponent later
   // components shared by other feature modules
   declarations: [ 
-    InitCapsPipe,
+    ProdPriceRangePipe,
     // StarComponent
    ],
   /* Avoid providing services in shared modules. Services are usually singletons

@@ -7,7 +7,7 @@ import {Hero} from '../hero.model';
 import { ProdService } from '../prod.service';
 
 @Component({
-  selector: 'app-hero-detail',
+  selector: 'prod-detail',
   templateUrl: './prod-detail.component.html',
   styleUrls: ['./prod-detail.component.css']
 })

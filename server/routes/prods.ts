@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
 // the root path relative to the path where it's mounted.
 router.route('/hero')
   // get all the users when a method passed is GET
-  .get((req: Request, res: Response)=> {
+  .get((req: Request, res: Response, next)=> {
     console.log('get prod');
     Prods.find({})
     .then((data)=> {       

@@ -69,3 +69,7 @@ debug node & angular in vsc
         ///////////
         in dist file
             run source-map-explorer main.bundle.js   
+
+    db name: quickstar
+    collection name: Prods
+    

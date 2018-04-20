@@ -23,7 +23,7 @@ export class ProdListComponent implements OnInit {
   errorMessage: string;
   options: Array<string> = ['Book', 'car', 'clothing', 'Electronics', 'Food'];
   selectedHero: Hero;
-  filteredOptions: Observable<string[]>;
+  filteredOptions$: Observable<string[]> = null;
   searchInput = new FormControl();
   constructor(private prodService: ProdService, private router: Router,
     private route: ActivatedRoute, ) { }
@@ -32,8 +32,14 @@ export class ProdListComponent implements OnInit {
     return this.options.filter(option => new RegExp(`^${val}`, 'gi').test(option));
   }
 
+/* 
+  ngDoCheck(){
+    console.log('Docheck!');
+  }
+*/
+
   ngOnInit() {
-    this.filteredOptions = this.searchInput.valueChanges
+    this.filteredOptions$ = this.searchInput.valueChanges
       // .startWith(null)
       .map(val => val ? this.filter(val) : this.options.slice());
 
